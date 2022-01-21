@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
+import 'package:firebase_core/firebase_core.dart';
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   // the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -20,14 +22,25 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
         
       ),
-      home: const HomePage(),
+      home: FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot){
+          if(snapshot.hasError){
+            print("Error");
+          }
+          if(snapshot.connectionState==ConnectionState.done){
+            return HomePage();
+          }
+          return CircularProgressIndicator();
+        }
+      )
     );
   }
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key? key }) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
