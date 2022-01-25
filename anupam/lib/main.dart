@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
-void main() {
+import 'package:cloud_firestore/cloud_firestore.dart';
+void main(){
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
   runApp( MyApp());
 }
 

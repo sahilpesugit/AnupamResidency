@@ -1,10 +1,23 @@
+import 'package:anupam/checkinentry.dart';
 import 'package:anupam/checkout.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Checkin extends StatefulWidget {
-  const Checkin({ Key? key }) : super(key: key);
+  const Checkin({ 
+    Key? key,
+    @required this.nameController,
+    // @required this.phoneNoController,
+    @required this.locationController,
+    @required this.widget,
+    // @required this.roomNoController
+    }) : super(key: key);
+    final TextEditingController nameController;
+    final TextEditingController locationController;
+    final  widget;
+    // final TextEditingController phoneNo;
 
   @override
   custReg createState() => custReg();
@@ -32,7 +45,10 @@ class custReg extends State<Checkin>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
+                                {
+                                  final checkinEntryMap= CheckinEntry(name: name location: location, phoneNumber: phoneNumber)
+                                  FirebaseFirestore.instance.collection('CurrOcc').add({});
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
                               child: const Text('Next'),))
           ]
         ));
@@ -69,7 +85,7 @@ class custReg extends State<Checkin>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Loaction',),)),     
+                      labelText: 'Location',),)),     
                   buttons,  
                       
                   
