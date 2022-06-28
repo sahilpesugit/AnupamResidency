@@ -3,8 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: "AIzaSyB4E3iTeRNndiLL-ktfwnJmDhVvoeneCCI", // Your apiKey
+      appId: "1:430918641837:web:d571fcf7b2730731a9fe24", // Your appId
+      messagingSenderId: "430918641837", // Your messagingSenderId
+      projectId: "anupam-residency", // Your projectId
+    ),
+  );
   runApp( MyApp());
 }
 

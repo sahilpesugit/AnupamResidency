@@ -3,7 +3,9 @@ import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Billing extends StatefulWidget {
-  const Billing({ Key? key }) : super(key: key);
+  TextEditingController checkoutcont=new TextEditingController();
+  Billing({ Key? key,
+  required this.checkoutcont }) : super(key: key);
 
   @override
   makeBill createState() => makeBill();
@@ -31,7 +33,7 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
+                                {print(widget.checkoutcont.text);Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
                               child: const Text('Print'),))
           ]
         ));
