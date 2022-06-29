@@ -42,6 +42,7 @@ class roomAlloc extends State<RoomAlloc>{
   CollectionReference tripacrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleAC").collection("rooms");
   CollectionReference tripnrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleNAC").collection("rooms");
   CollectionReference quadrooms = FirebaseFirestore.instance.collection('Rooms').doc("Quad").collection("rooms");
+  var finaltype; //final type of room selected per checkin
   static List<String> singsb=[];
   static List<String> singb=[];
   static List<String> dubn=[];
@@ -65,6 +66,10 @@ class roomAlloc extends State<RoomAlloc>{
       return(list);
      
   }
+  void editStatus(roomno,finaltype)async {
+    var docref = finaltype.doc('${roomno}');
+    var res = await docref.update({'avail': 'n'});
+   }
   @override
   
  Widget build(BuildContext context) {
@@ -100,7 +105,7 @@ class roomAlloc extends State<RoomAlloc>{
                   SizedBox(height:35,width:160,
                             child:ElevatedButton(
                               style: style,
-                              onPressed:(){addCheckin();
+                              onPressed:(){addCheckin();editStatus(roomno, finaltype);
                                 {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));}},
                               child: const Text('Confirm'),))
           ]
@@ -156,7 +161,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingsb;Navigator.pop(context);})] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingsb;finaltype=singsbrooms;Navigator.pop(context);})] ));},))
                 ]
               ),
               TableRow(
@@ -179,7 +184,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingb;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingb;finaltype=singbrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
@@ -202,7 +207,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubn;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubn;finaltype=dubnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
@@ -225,7 +230,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubac;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubac;finaltype=dubacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
@@ -248,7 +253,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripn;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripn;finaltype=tripnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
@@ -271,7 +276,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripac;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripac;finaltype=tripacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
@@ -294,7 +299,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selquad;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selquad;finaltype=quadrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
             ],

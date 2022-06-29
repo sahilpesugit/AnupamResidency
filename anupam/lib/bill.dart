@@ -1,6 +1,7 @@
 import 'package:anupam/checkout.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 class Billing extends StatefulWidget {
   TextEditingController checkoutcont=new TextEditingController();
@@ -13,6 +14,19 @@ class Billing extends StatefulWidget {
 }
 
 class makeBill extends State<Billing>{
+  CollectionReference checkin = FirebaseFirestore.instance.collection('Checkin');
+  // var chkoutdeet;
+
+  // Future<QueryDocumentSnapshot<Object?>> chkoutData(phno)async {
+  //   QuerySnapshot details = await checkin.get();
+  //   QueryDocumentSnapshot chkoutdeet;
+  //   details.docs.forEach((element) {
+  //               if(element.get("phNo")=="${phno}"){
+  //                 chkoutdeet=element;
+  //               };});
+  //   return chkoutdeet;
+
+  // }
   @override
  Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -33,7 +47,7 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {print(widget.checkoutcont.text);Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
+                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
                               child: const Text('Print'),))
           ]
         ));
@@ -54,6 +68,14 @@ class makeBill extends State<Billing>{
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children:<Widget>[
+                  // SizedBox(height:35,width:160,
+                  //           child:ElevatedButton(
+                  //             style: style,
+                  //             onPressed:()
+                  //               {chkoutData(widget.checkoutcont.text).then((value) => {chkoutdeet=value});print(chkoutdeet.get("name"));},
+                  //             child: const Text('Generate Bill'),)),
+                  // SizedBox(height:35,width:160,
+                  //     child:),            
                   SizedBox(height:35,width:160,
                       child:TextField(
                     obscureText: false,
