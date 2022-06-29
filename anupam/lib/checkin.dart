@@ -31,7 +31,7 @@ class custReg extends State<Checkin>{
   CollectionReference tripacrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleAC").collection("rooms");
   CollectionReference tripnrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleNAC").collection("rooms");
   CollectionReference quadrooms = FirebaseFirestore.instance.collection('Rooms').doc("Quad").collection("rooms");
-  static int singsbn=0;
+  // static int singsbn=0;
   @override
  Widget build(BuildContext context) {
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
@@ -77,7 +77,7 @@ class custReg extends State<Checkin>{
                                 roomAlloc.getData(tripnrooms).then((value) => {roomAlloc.tripn=value});
                                 roomAlloc.getData(tripacrooms).then((value) => {roomAlloc.tripac=value});
                                 roomAlloc.getData(quadrooms).then((value) => {roomAlloc.quad=value});
-                                singsbn=roomAlloc.singsb.length;
+                                // singsbn=roomAlloc.singsb.length;
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RoomAlloc(namecont:namecont,locationcont:locationcont,phNocont:phNocont)));}
                                 ,
                               child: const Text('Next'),))
