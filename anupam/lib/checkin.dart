@@ -137,7 +137,7 @@ class custReg extends State<Checkin>{
           child: Column(
             children: [
               const SizedBox(
-                height: 100.0,
+                height: 50.0,
               ),
               const Center(
                 child: Text(
@@ -159,7 +159,9 @@ class custReg extends State<Checkin>{
                    opacity: 0.07,
                     radius: 20, 
                     child: Container(
-                      height: 750,
+                      height: 450,
+                      width: 500,
+                      alignment: Alignment.topCenter,
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         children: [
@@ -174,12 +176,8 @@ class custReg extends State<Checkin>{
                           /*const SizedBox(
                             height: 20,
                             ),*/
-                            const Spacer(),
-                            Glassmorphism(
-                              blur: 10,
-                               opacity: 1.0,
-                                radius: 50.0, 
-                                child: TextField(
+                          const SizedBox(height: 30),
+                            SizedBox(width: 400, child: TextField(
                      controller: namecont,
                     obscureText: false,
                     decoration: InputDecoration(

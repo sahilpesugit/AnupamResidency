@@ -129,16 +129,19 @@ class HomePage extends StatelessWidget {
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkin(onSubmit: (value) => value,)));},
                   child: const Text('Check-in'))),
                   const SizedBox(height:10),       
-                SizedBox(height:40,width:150,
-                  child: ElevatedButton(
-                    style: style,
-                    onPressed:()
-                      {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                    child: const Text('Check-out'),)),
+                 Glassmorphism(
+                        blur: 10, 
+                        opacity: 1.0, 
+                        radius: 100.0, 
+                        child: ElevatedButton(
+                  
+                  onPressed:()
+                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
+                  child: const Text('Check-out'))),
                     ]),),
                 ),),
                 const SizedBox(
-                  height: 300,
+                  height: 100,
             ),
 
             ],),),
