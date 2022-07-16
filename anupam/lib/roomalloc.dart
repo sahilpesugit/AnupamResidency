@@ -99,7 +99,7 @@ class roomAlloc extends State<RoomAlloc>{
                       child:ElevatedButton(
                         style: style,
                         onPressed:()
-                          {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkin()));},
+                          {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkin(onSubmit: (value) => value,)));},
                         child: const Text('Back'),)),
                         SizedBox(width: 20),
                   SizedBox(height:35,width:160,

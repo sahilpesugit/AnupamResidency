@@ -6,11 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:developer';
+import 'package:anupam/glassmorphism.dart';
+import 'package:flutter/cupertino.dart';
 
 
 // Create a new user with a first and last name
 class Checkin extends StatefulWidget {
-  const Checkin({ Key? key }) : super(key: key);
+  const Checkin({ Key? key, required this.onSubmit }) : super(key: key);
+  final ValueChanged<String> onSubmit;
 
   @override
   custReg createState() => custReg();
@@ -21,6 +24,8 @@ class Checkin extends StatefulWidget {
 // final String locations="bloreeeeeee";
 
 class custReg extends State<Checkin>{
+  var _text = '';
+  //final _controller = TextEditingController();
   TextEditingController namecont=new TextEditingController();
   TextEditingController phNocont=new TextEditingController();
   TextEditingController locationcont=new TextEditingController();
@@ -33,6 +38,36 @@ class custReg extends State<Checkin>{
   CollectionReference quadrooms = FirebaseFirestore.instance.collection('Rooms').doc("Quad").collection("rooms");
   // static int singsbn=0;
   @override
+  void dispose() {
+    namecont.dispose();
+    super.dispose();
+  }
+  
+  String? get _errorText {
+    final phtext = phNocont.value.text;
+    //final ntext=namecont.value.text;
+    //final ltext=locationcont.value.text;
+    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    if(!phoneRegExp.hasMatch(phtext)){
+      return 'Invalid Phone Number';
+    }
+    if(phtext.isEmpty) {
+      return 'Cant be empty';
+    }
+    //final nameRegExp = new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    //if(!nameRegExp.hasMatch(ntext)){
+     // return 'Invalid Name';
+    //}
+    return null;
+
+  }
+  bool _submit() {
+    if(_errorText == null) {
+      //widget.onSubmit(phNocont.value.text);
+      return true;    
+    }
+    return false;
+  }
  Widget build(BuildContext context) {
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
   //   Future<void> addCheckin() {
@@ -64,12 +99,14 @@ class custReg extends State<Checkin>{
                   SizedBox(height:35,width:160,
                             child:ElevatedButton(
                               style: style,
-                              onPressed:()
+                              onPressed:(phNocont.value.text.isNotEmpty)&&(namecont.value.text.isNotEmpty)&&(locationcont.value.text.isNotEmpty)
+                              ?()
                                 // {Map<String,dynamic> data={"name":namecont,"phNo":phNocont,"location":locationcont};
                                 // FirebaseFirestore.instance.collection("CheckIn").add(data);
                                 // log('name: $namecont');
                                 // log('data: $names');
                                {
+                                
                                 roomAlloc.getData(singsbrooms).then((value) => {roomAlloc.singsb=value});
                                 roomAlloc.getData(singbrooms).then((value) => {roomAlloc.singb=value});
                                 roomAlloc.getData(dubnrooms).then((value) => {roomAlloc.dubn=value});
@@ -79,20 +116,106 @@ class custReg extends State<Checkin>{
                                 roomAlloc.getData(quadrooms).then((value) => {roomAlloc.quad=value});
                                 print(roomAlloc.dubac.length);
                                 // singsbn=roomAlloc.singsb.length;
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RoomAlloc(namecont:namecont,locationcont:locationcont,phNocont:phNocont)));}
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RoomAlloc(namecont:namecont,locationcont:locationcont,phNocont:phNocont)));} 
+                                : null
                                 ,
                               child: const Text('Next'),))
           ]
         ));
-    return Container(
-      decoration: BoxDecoration(  
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color.fromRGBO(255, 125, 49,1.0),Color.fromRGBO(255, 252, 128,1.0)]
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body:Stack(
+        children: [
+          SizedBox(
+          width: double.infinity,
+          height: double.infinity,
+          child: Image.asset("assets/bg4.jpg",
+          fit: BoxFit.cover,
+          ),
+        ),
+        SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 100.0,
+              ),
+              const Center(
+                child: Text(
+                  'Check-In',
+                  style: TextStyle(
+                    color: Colors.deepOrangeAccent,
+                    fontSize: 40.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                ),
+                child: Glassmorphism(
+                  blur: 10,
+                   opacity: 0.07,
+                    radius: 20, 
+                    child: Container(
+                      height: 750,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Enter Guest Details',
+                            style: TextStyle(
+                              color: Colors.deepOrangeAccent,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          /*const SizedBox(
+                            height: 20,
+                            ),*/
+                            const Spacer(),
+                            Glassmorphism(
+                              blur: 10,
+                               opacity: 1.0,
+                                radius: 50.0, 
+                                child: TextField(
+                     controller: namecont,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Name',),
+                      onChanged: (text) => setState(()=> _text),)),
+                      const SizedBox(height: 20),
+                      SizedBox(width: 400,
+                      child: TextField(
+                     controller: phNocont,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Phone Number',
+                      //errorText: _errorText
+                      ),
+                      onChanged: (text) => setState(()=> _text),)),
+                      SizedBox(height: 20),
+                      SizedBox(width:400,
+                      child: TextField(
+                        controller: locationcont,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Location',
+                      //errorText: _errorText
+                      ),
+                      onChanged: (text) => setState(()=> _text),)),
+                      buttons,
+
+                        ]),)),)
+            ]),)]
               ), 
-          ),  
-       child: Scaffold(
+          );
+            
+       /*child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(
@@ -104,7 +227,8 @@ class custReg extends State<Checkin>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Name',),)),
+                      labelText: 'Name',),
+                      onChanged: (text) => setState(()=> _text),)),
                   SizedBox(height:20),
                   SizedBox( width:400,
                    child: TextField(
@@ -112,7 +236,10 @@ class custReg extends State<Checkin>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Phone Number',),)),
+                      labelText: 'Phone Number',
+                      //errorText: _errorText
+                      ),
+                      onChanged: (text) => setState(()=> _text),)),
                   SizedBox(height:20),
                   SizedBox( width:400,  
                    child: TextField(
@@ -120,14 +247,15 @@ class custReg extends State<Checkin>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Location',),)),     
+                      labelText: 'Location',),
+                      onChanged: (text) => setState(()=> _text),)),     
                   buttons,  
                       
                   
               ]))
             )
 
-    );
+    );*/
   }
 
 
