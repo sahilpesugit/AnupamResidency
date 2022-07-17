@@ -3,21 +3,36 @@ import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:anupam/roomalloc.dart';
 class Billing extends StatefulWidget {
   TextEditingController checkoutcont=new TextEditingController();
   Billing({ Key? key,
   required this.checkoutcont }) : super(key: key);
 
   @override
+  
   makeBill createState() => makeBill();
   
 }
 
 class makeBill extends State<Billing>{
-  CollectionReference checkin = FirebaseFirestore.instance.collection('CheckIn');
+  static CollectionReference checkin = FirebaseFirestore.instance.collection('CheckIn');
+  static CollectionReference tariff = FirebaseFirestore.instance.collection('Tariff');
+  static CollectionReference rooms = FirebaseFirestore.instance.collection('Rooms');
+  
+  
   List<dynamic> chkoutdeet=[];
   var snapshot;
-  Future<void> delDoc(phno) async {
+  var mapper={
+    'SSB':roomAlloc.singsbrooms,
+    'SN': roomAlloc.singbrooms,
+    'DN': roomAlloc.dubnrooms,
+    'DAC':roomAlloc.dubacrooms,
+    'TN': roomAlloc.tripnrooms,
+    'TAC': roomAlloc.tripacrooms,
+    'Q': roomAlloc.quadrooms
+  };
+  Future<void> delDoc(room) async {
     final QuerySnapshot details = await checkin.get();
     //print(checkin.doc("Sahil").get());
     //checkin.doc("JtDcmyQnlRvkGfp7BE2l").delete();
@@ -25,12 +40,32 @@ class makeBill extends State<Billing>{
     //             if(element.get("phNo")=="${phno}"){
     //               element.delete()
     //             };});
-    checkin.where("phNo", isEqualTo: "${phno}").get().then((snapshot) {
+    checkin.where("roomno", isEqualTo: "${room}").get().then((snapshot) {
       snapshot.docs[0].reference.delete();
+     //change status in the room colllection to available
     });
   }
+  Future<void> genBill(deetlist) async{
+    DateTime curr =DateTime.now();
+    Timestamp stamp=deetlist[2];
+    DateTime inTime=DateTime.fromMicrosecondsSinceEpoch(stamp.microsecondsSinceEpoch);
+    final diff=curr.difference(inTime).inDays; //time of stay calculated approximately
+    String room=deetlist[1];
+    int rate=0; //rate
+    // print(room);
+    // QuerySnapshot querySnapshot = await tariff.get();
+    //   querySnapshot.docs.forEach((element) {
+    //             if(element.get("roomno")=="${room}"){
+    //               rate=element.get("rate");
+    //             }});
+    print("${deetlist[4]}");
+    rooms.doc("${deetlist[4]}").get().then((snapshot) {
+      print(snapshot.data());
+    });
+    
+  }
 
-  Future<List<dynamic>> chkoutData(room)async {
+  static Future<List<dynamic>> chkoutData(room)async {
     final QuerySnapshot details = await checkin.get();
     
     //final List<QueryDocumentSnapshot> chkoutdeet = details.docs;
@@ -41,11 +76,12 @@ class makeBill extends State<Billing>{
                   list.add(element.get("roomno").toString());
                   list.add(element.get("date"));
                   list.add(element.get("phNo").toString());
+                  list.add(element.get("roomtype"));
                 };});
     // details.docs.forEach(((element) {
     //             list.add(element.data().toString());
     // }));
-    print(list);
+    // print(list);
     return(list);
     // details.docs.forEach((element) {
     //             if(element.get("phNo")=="${phno}"){
@@ -62,6 +98,16 @@ class makeBill extends State<Billing>{
 
   }
   @override
+  void initState(){
+    var mapper={
+    'SSB':roomAlloc.singsbrooms,
+    'SN': roomAlloc.singbrooms,
+    'DN': roomAlloc.dubnrooms,
+    'DAC':roomAlloc.dubacrooms,
+    'TN': roomAlloc.tripnrooms,
+    'TAC': roomAlloc.tripacrooms,
+    'Q': roomAlloc.quadrooms
+  };}
  Widget build(BuildContext context) {
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
@@ -107,8 +153,7 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {chkoutData(widget.checkoutcont.text).then((value) => chkoutdeet = value);
-                                // print(chkoutdeet);
+                                {
                                 },
                               child: const Text('Generate Bill'),)),
                   SizedBox(height:35,width:160,
@@ -123,7 +168,9 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
+                                {genBill(custRetrieve.deetlist);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context)=>Checkout()));},
                               child: const Text('Add'),))
           ]));
     return Container(

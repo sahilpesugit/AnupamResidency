@@ -114,7 +114,7 @@ class custReg extends State<Checkin>{
                                 roomAlloc.getData(tripnrooms).then((value) => {roomAlloc.tripn=value});
                                 roomAlloc.getData(tripacrooms).then((value) => {roomAlloc.tripac=value});
                                 roomAlloc.getData(quadrooms).then((value) => {roomAlloc.quad=value});
-                                print(roomAlloc.dubac.length);
+                                // print(roomAlloc.dubac.length);
                                 // singsbn=roomAlloc.singsb.length;
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>RoomAlloc(namecont:namecont,locationcont:locationcont,phNocont:phNocont)));} 
                                 : null
