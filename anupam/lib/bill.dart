@@ -15,7 +15,7 @@ class Billing extends StatefulWidget {
 
 class makeBill extends State<Billing>{
   CollectionReference checkin = FirebaseFirestore.instance.collection('CheckIn');
-  var chkoutdeet;
+  List<dynamic> chkoutdeet=[];
   var snapshot;
   Future<void> delDoc(phno) async {
     final QuerySnapshot details = await checkin.get();
@@ -30,13 +30,13 @@ class makeBill extends State<Billing>{
     });
   }
 
-  Future<List<dynamic>> chkoutData(phno)async {
+  Future<List<dynamic>> chkoutData(room)async {
     final QuerySnapshot details = await checkin.get();
     
     //final List<QueryDocumentSnapshot> chkoutdeet = details.docs;
     List<dynamic> list=[];
     details.docs.forEach((element) {
-                if(element.get("phNo")=="${phno}"){
+                if(element.get("roomno")=="${room}"){
                   list.add(element.get("name").toString());
                   list.add(element.get("roomno").toString());
                   list.add(element.get("date"));
@@ -45,6 +45,7 @@ class makeBill extends State<Billing>{
     // details.docs.forEach(((element) {
     //             list.add(element.data().toString());
     // }));
+    print(list);
     return(list);
     // details.docs.forEach((element) {
     //             if(element.get("phNo")=="${phno}"){
@@ -106,7 +107,9 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {chkoutData(widget.checkoutcont.text).then((value) => chkoutdeet = value);},
+                                {chkoutData(widget.checkoutcont.text).then((value) => chkoutdeet = value);
+                                // print(chkoutdeet);
+                                },
                               child: const Text('Generate Bill'),)),
                   SizedBox(height:35,width:160,
                       ),            

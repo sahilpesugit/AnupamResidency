@@ -58,7 +58,7 @@ class custRetrieve extends State<Checkout>{
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Phone Number',),)),
+                      labelText: 'Room Number',),)),
                       buttons,
                   /*SizedBox(height:35,width:160,
                       child:ElevatedButton(
