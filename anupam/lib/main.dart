@@ -1,4 +1,5 @@
 import 'package:anupam/glassmorphism.dart';
+import 'package:anupam/makereservation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/checkin.dart';
@@ -138,6 +139,26 @@ class HomePage extends StatelessWidget {
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
                   child: const Text('Check-out'))),
+                  const SizedBox(height: 10),
+                  Glassmorphism(
+                        blur: 10, 
+                        opacity: 1.0, 
+                        radius: 100.0, 
+                        child: ElevatedButton(
+                  
+                  onPressed:()
+                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MakeReserve(onSubmit: (value) => value,)));},
+                  child: const Text('Make Reservation'))),
+                  const SizedBox(height: 10),
+                  Glassmorphism(
+                        blur: 10, 
+                        opacity: 1.0, 
+                        radius: 100.0, 
+                        child: ElevatedButton(
+                  
+                  onPressed:()
+                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
+                  child: const Text('Cancel Reservation'))),
                     ]),),
                 ),),
                 const SizedBox(
