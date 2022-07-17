@@ -23,6 +23,7 @@ class makeBill extends State<Billing>{
   
   List<dynamic> chkoutdeet=[];
   var snapshot;
+  var billdeets;
   var mapper={
     'SSB':roomAlloc.singsbrooms,
     'SN': roomAlloc.singbrooms,
@@ -45,7 +46,8 @@ class makeBill extends State<Billing>{
      //change status in the room colllection to available
     });
   }
-  Future<void> genBill(deetlist) async{
+  Future<List<dynamic>> genBill(deetlist) async{
+    List<dynamic> billdeets=[];
     DateTime curr =DateTime.now();
     Timestamp stamp=deetlist[2];
     DateTime inTime=DateTime.fromMicrosecondsSinceEpoch(stamp.microsecondsSinceEpoch);
@@ -58,11 +60,21 @@ class makeBill extends State<Billing>{
     //             if(element.get("roomno")=="${room}"){
     //               rate=element.get("rate");
     //             }});
-    print("${deetlist[4]}");
-    rooms.doc("${deetlist[4]}").get().then((snapshot) {
-      print(snapshot.data());
-    });
-    
+    // print("${deetlist[4]}");
+  
+    // rooms.doc("${deetlist[4]}").get().then((snapshot) {
+    //   print(snapshot.data());
+    // });
+
+    QuerySnapshot qs = await rooms.get();
+      qs.docs.forEach((element) {
+                if(element.id == '${deetlist[4]}'){
+                  rate=element.get("rate");
+                }});
+    billdeets.addAll(deetlist);
+    billdeets.add(rate);
+    billdeets.add(diff);
+    return billdeets;
   }
 
   static Future<List<dynamic>> chkoutData(room)async {
@@ -168,7 +180,7 @@ class makeBill extends State<Billing>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {genBill(custRetrieve.deetlist);
+                                {genBill(custRetrieve.deetlist).then((value) => print(value));
                                   Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context)=>Checkout()));},
                               child: const Text('Add'),))
