@@ -37,6 +37,9 @@ dependencies:
   google_fonts: ^3.0.1
   firebase_core: ^1.11.0
   cloud_firestore: ^3.1.9
+  pdf: ^3.8.1
+  path_provider: ^2.0.11
+  open_document: ^1.0.4
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -26,6 +26,7 @@ class RoomAlloc extends StatefulWidget {
 
 class roomAlloc extends State<RoomAlloc>{
   String roomno="";
+  var roomtype;
   //var psingsb=getData(singsbrooms);
 
   // void listgensingsb() async {
@@ -35,13 +36,13 @@ class roomAlloc extends State<RoomAlloc>{
 
   //   }
   //   });}
-  CollectionReference singsbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleSBath").collection("rooms");
-  CollectionReference singbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleBath").collection("rooms");
-  CollectionReference dubacrooms = FirebaseFirestore.instance.collection('Rooms').doc("DoubleAC").collection("rooms");
-  CollectionReference dubnrooms = FirebaseFirestore.instance.collection('Rooms').doc("DoubleNAC").collection("rooms");
-  CollectionReference tripacrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleAC").collection("rooms");
-  CollectionReference tripnrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleNAC").collection("rooms");
-  CollectionReference quadrooms = FirebaseFirestore.instance.collection('Rooms').doc("Quad").collection("rooms");
+  static CollectionReference singsbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleSBath").collection("rooms");
+  static CollectionReference singbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleBath").collection("rooms");
+  static CollectionReference dubacrooms = FirebaseFirestore.instance.collection('Rooms').doc("DoubleAC").collection("rooms");
+  static CollectionReference dubnrooms = FirebaseFirestore.instance.collection('Rooms').doc("DoubleNAC").collection("rooms");
+  static CollectionReference tripacrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleAC").collection("rooms");
+  static CollectionReference tripnrooms = FirebaseFirestore.instance.collection('Rooms').doc("TripleNAC").collection("rooms");
+  static CollectionReference quadrooms = FirebaseFirestore.instance.collection('Rooms').doc("Quad").collection("rooms");
   var finaltype; //final type of room selected per checkin
   static List<String> singsb=[];
   static List<String> singb=[];
@@ -50,6 +51,7 @@ class roomAlloc extends State<RoomAlloc>{
   static List<String> tripn=[];
   static List<String> tripac=[];
   static List<String> quad=[];
+  
   //make this list by querying the firestoreDB
   
   static Future<List<String>> getData(rooms) async {
@@ -71,7 +73,18 @@ class roomAlloc extends State<RoomAlloc>{
     var res = await docref.update({'avail': 'n'});
    }
   @override
-  
+  //initially runs once for every class state created
+  // void initState(){
+  //   var mapper={
+  //   'SSB':singbrooms,
+  //   'SN': singbrooms,
+  //   'DN': dubnrooms,
+  //   'DAC':dubacrooms,
+  //   'TN': tripnrooms,
+  //   'TAC': tripacrooms,
+  //   'Q': quadrooms
+  // };
+  // }
  Widget build(BuildContext context) {
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
     Future<void> addCheckin() {
@@ -82,10 +95,11 @@ class roomAlloc extends State<RoomAlloc>{
             'location': widget.locationcont.text,
             'phNo': widget.phNocont.text,
             'roomno': roomno,
-            'date': DateTime.now()
+            'date': DateTime.now(),
+            'roomtype' : roomtype
               })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
+          .then((value) => print("User Added")) //Add a toast with success
+          .catchError((error) => print("Failed to add user: $error")); //add a toast with error
           
    }
     final ButtonStyle style =
@@ -137,14 +151,14 @@ class roomAlloc extends State<RoomAlloc>{
               TableRow(
                 children: [
                   Center(child: Text("Room Type",textScaleFactor: 1.5,),),
-                  Center(child: Text("Number of rooms Available",textScaleFactor: 1.5),),
+                  // Center(child: Text("Number of rooms Available",textScaleFactor: 1.5),),
                   Center(child: Text("Links",textScaleFactor: 1.5),)
                 ]
               ),
                TableRow(
                 children: [
                   Center(child: Text("Single(Shared Bathroom)",textScaleFactor: 1.5),),
-                  Center(child: Text("${singsb.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${singsb.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String selsingsb=singsb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single-Shared Bath"),
@@ -161,13 +175,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingsb;finaltype=singsbrooms;Navigator.pop(context);})] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleSBath";roomno=selsingsb;finaltype=singsbrooms;Navigator.pop(context);})] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Single Room Non A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${singb.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${singb.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String selsingb=singb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single Room Non A/C"),
@@ -184,13 +198,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selsingb;finaltype=singbrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleBath";roomno=selsingb;finaltype=singbrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Double Room Non A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${dubn.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${dubn.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String seldubn=dubn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room Non A/C"),
@@ -207,13 +221,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubn;finaltype=dubnrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="DoubleNAC";roomno=seldubn;finaltype=dubnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Double Room A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${dubac.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${dubac.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String seldubac=dubac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room A/C"),
@@ -230,13 +244,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seldubac;finaltype=dubacrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="DoubleAC";roomno=seldubac;finaltype=dubacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Triple Room Non A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${tripn.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${tripn.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String seltripn=tripn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room Non A/C"),
@@ -253,13 +267,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripn;finaltype=tripnrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="TripleNAC";roomno=seltripn;finaltype=tripnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Triple Room A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${tripac.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${tripac.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String seltripac=tripac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room A/C"),
@@ -276,13 +290,13 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=seltripac;finaltype=tripacrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="TripleAC";roomno=seltripac;finaltype=tripacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
               TableRow(
                 children: [
                   Center(child: Text("Four Bed Room Non A/C",textScaleFactor: 1.5),),
-                  Center(child: Text("${quad.length}",textScaleFactor: 1.5),),
+                  // Center(child: Text("${quad.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
                                               onPressed: (){String selquad=quad.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Four Bed Room Non A/C"),
@@ -299,7 +313,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                         });
                                                                       },
                                                                      ),
-                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomno=selquad;finaltype=quadrooms;Navigator.pop(context);},),] ));},))
+                                              actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="Quad";roomno=selquad;finaltype=quadrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
             ],

@@ -14,6 +14,7 @@ class Checkout extends StatefulWidget {
 
 class custRetrieve extends State<Checkout>{
   TextEditingController checkoutcont=new TextEditingController();
+  static List<dynamic> deetlist=[];
   @override
  Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -34,7 +35,7 @@ class custRetrieve extends State<Checkout>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));},
+                                {makeBill.chkoutData(checkoutcont.text).then((value) => deetlist=value); Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));},
                               child: const Text('Next'),))
           ]
         ));
