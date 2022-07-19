@@ -6,7 +6,7 @@ import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pdf/pdf.dart';
+import 'package:pdf/pdf.dart' as w;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

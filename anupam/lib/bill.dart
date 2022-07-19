@@ -1,16 +1,19 @@
 import 'package:anupam/checkout.dart';
+import 'package:anupam/genBill.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/roomalloc.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+
 class Billing extends StatefulWidget {
   TextEditingController checkoutcont=new TextEditingController();
   Billing({ Key? key,
   required this.checkoutcont }) : super(key: key);
 
   @override
-  
   makeBill createState() => makeBill();
   
 }
@@ -19,34 +22,28 @@ class makeBill extends State<Billing>{
   static CollectionReference checkin = FirebaseFirestore.instance.collection('CheckIn');
   static CollectionReference tariff = FirebaseFirestore.instance.collection('Tariff');
   static CollectionReference rooms = FirebaseFirestore.instance.collection('Rooms');
-  
-  
-  List<dynamic> chkoutdeet=[];
+  // int isPressed = 0;
+  int _count=0;
+  static List<Map<String,dynamic>> values=[];
+  static List<dynamic> chkoutdeet=[];
   var snapshot;
-  var billdeets;
-  var mapper={
-    'SSB':roomAlloc.singsbrooms,
-    'SN': roomAlloc.singbrooms,
-    'DN': roomAlloc.dubnrooms,
-    'DAC':roomAlloc.dubacrooms,
-    'TN': roomAlloc.tripnrooms,
-    'TAC': roomAlloc.tripacrooms,
-    'Q': roomAlloc.quadrooms
-  };
+  static var billdeets;
+  int miscItems=0;
+  TextEditingController misccont=new TextEditingController();
+  
+
+
   Future<void> delDoc(room) async {
     final QuerySnapshot details = await checkin.get();
-    //print(checkin.doc("Sahil").get());
-    //checkin.doc("JtDcmyQnlRvkGfp7BE2l").delete();
-    // details.docs.forEach((element) {
-    //             if(element.get("phNo")=="${phno}"){
-    //               element.delete()
-    //             };});
+    
     checkin.where("roomno", isEqualTo: "${room}").get().then((snapshot) {
       snapshot.docs[0].reference.delete();
      //change status in the room colllection to available
     });
   }
-  Future<List<dynamic>> genBill(deetlist) async{
+
+
+  static Future<List<dynamic>> genBill(deetlist) async{
     List<dynamic> billdeets=[];
     DateTime curr =DateTime.now();
     Timestamp stamp=deetlist[2];
@@ -54,18 +51,6 @@ class makeBill extends State<Billing>{
     final diff=curr.difference(inTime).inDays; //time of stay calculated approximately
     String room=deetlist[1];
     int rate=0; //rate
-    // print(room);
-    // QuerySnapshot querySnapshot = await tariff.get();
-    //   querySnapshot.docs.forEach((element) {
-    //             if(element.get("roomno")=="${room}"){
-    //               rate=element.get("rate");
-    //             }});
-    // print("${deetlist[4]}");
-  
-    // rooms.doc("${deetlist[4]}").get().then((snapshot) {
-    //   print(snapshot.data());
-    // });
-
     QuerySnapshot qs = await rooms.get();
       qs.docs.forEach((element) {
                 if(element.id == '${deetlist[4]}'){
@@ -80,7 +65,6 @@ class makeBill extends State<Billing>{
   static Future<List<dynamic>> chkoutData(room)async {
     final QuerySnapshot details = await checkin.get();
     
-    //final List<QueryDocumentSnapshot> chkoutdeet = details.docs;
     List<dynamic> list=[];
     details.docs.forEach((element) {
                 if(element.get("roomno")=="${room}"){
@@ -90,101 +74,51 @@ class makeBill extends State<Billing>{
                   list.add(element.get("phNo").toString());
                   list.add(element.get("roomtype"));
                 };});
-    // details.docs.forEach(((element) {
-    //             list.add(element.data().toString());
-    // }));
-    // print(list);
+    
     return(list);
-    // details.docs.forEach((element) {
-    //             if(element.get("phNo")=="${phno}"){
-    //               chkoutdeet=element;
-    //             };});
-    // final docRef = checkin.doc("");
-    // docRef.get().then(
-    //   (DocumentSnapshot doc) {
-    //     final data = doc.data() as Map<String, dynamic>;
-    //     print(data);
-    //   },
-    //   onError: (e) => print("Error getting document : $e"),
-    // );
+   
 
   }
+
+
+  _row(int key){
+    String name='';
+    int rate=0;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(width:80.0),
+        SizedBox(width: 180,child: TextFormField(onChanged: (val){name=val;} ,decoration: InputDecoration(border: OutlineInputBorder())),),
+        SizedBox(width:10.0),
+        SizedBox(width: 180,child: TextFormField(onChanged: (val1){rate=int.parse(val1);},decoration: InputDecoration(border: OutlineInputBorder())),), 
+        SizedBox(width:70,
+                      child:ElevatedButton(
+                        onPressed:()
+                          {
+                            _onUpdate(name, rate);
+                          },
+                        child: const Text('Add'),)),
+    ],);
+  }
+
+  _onUpdate(String name,int rate ){
+    Map<String,dynamic> json={'name':name,'rate': rate} ;
+    values.add(json);
+    // print(values);
+  }
+
   @override
-  void initState(){
-    var mapper={
-    'SSB':roomAlloc.singsbrooms,
-    'SN': roomAlloc.singbrooms,
-    'DN': roomAlloc.dubnrooms,
-    'DAC':roomAlloc.dubacrooms,
-    'TN': roomAlloc.tripnrooms,
-    'TAC': roomAlloc.tripacrooms,
-    'Q': roomAlloc.quadrooms
-  };}
+  void initState() {
+    super.initState();
+    _count=0;
+    values=[];
+  }
+
+@override
  Widget build(BuildContext context) {
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-        var buttons=new Container(
-          padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children:<Widget>[
-                  SizedBox(height:35,width:160,
-                      child:ElevatedButton(
-                        style: style,
-                        onPressed:()
-                          {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                        child: const Text('Back'),)),
-                        SizedBox(width: 20),
-                  SizedBox(height:35,width:160,
-                            child:ElevatedButton(
-                              style: style,
-                              onPressed:()
-                                
-                                {delDoc(widget.checkoutcont.text);Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
-                              child: const Text('Print'),))
-          ]
-        ));
-        /*var edit1=new Container(
-          padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children:<Widget>[
-            SizedBox(height:35,width:160,
-                            child:ElevatedButton(
-                              style: style,
-                              onPressed:()
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
-                              child: const Text('Edit'),))
-          ]));*/
-        var edit=new Container(
-          padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children:<Widget>[
-                  SizedBox(height:35,width:160,
-                            child:ElevatedButton(
-                              style: style,
-                              onPressed:()
-                                {
-                                },
-                              child: const Text('Generate Bill'),)),
-                  SizedBox(height:35,width:160,
-                      ),            
-                  SizedBox(height:35,width:160,
-                      child:TextField(
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Miscellaneous',),)),
-                  SizedBox(height:35,width:160,
-                            child:ElevatedButton(
-                              style: style,
-                              onPressed:()
-                                {genBill(custRetrieve.deetlist).then((value) => print(value));
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context)=>Checkout()));},
-                              child: const Text('Add'),))
-          ]));
     return Container(
       decoration: BoxDecoration(  
             gradient: LinearGradient(
@@ -193,17 +127,92 @@ class makeBill extends State<Billing>{
               colors: [Color.fromRGBO(255, 125, 49,1.0),Color.fromRGBO(255, 252, 128,1.0)]
               ), 
           ),  
-       child: Scaffold(
+       child: 
+       Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(
                 children: <Widget>[ 
-                  const SizedBox(height:250),
-                  edit,
-                  //edit1,
-                  buttons,
-              ]))
-            )
+                  const SizedBox(height:100),
+                  Text('Miscellaneous Items',style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),),
+                  Column(children:[
+              Container(child: Column(
+                children: <Widget>[ 
+                      const SizedBox(height:30),
+                      Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              
+          children:<Widget>[
+                      
+                      SizedBox(height:50,width:50,
+                            child:ElevatedButton(
+                              style: style,
+                              onPressed:() async
+                                {
+                                  setState(() {
+                                  _count++;
+                                  }); },
+                              child: const Text('+'),)),
+
+                      SizedBox(height:50,width:50,
+                            child:ElevatedButton(
+                              style: style,
+                              onPressed:() async
+                                {
+                                  setState(() {
+                                  _count=0;
+                                  }); },child: const Text('-'))),]),
+                  Container(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: _count,
+                          itemBuilder:  (context,index){
+                          return _row(index);
+                        },
+                        ),
+                        Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              
+          children:<Widget>[SizedBox(height:35,width:160,
+                      child:ElevatedButton(
+                        style: style,
+                        onPressed:()
+                          {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));
+                          },
+                        child: const Text('Back'),)),
+                        SizedBox(width: 30),
+                         SizedBox(height:35,width:160,
+                            child:ElevatedButton(
+                          style: style,
+                          onPressed:()
+                            {
+                                  genBill(custRetrieve.deetlist).then((value) => billdeets=value);
+                                  setState(() {
+                                  billdeets=billdeets;
+                                  });
+                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>genPdf())); 
+                            },
+                          child: const Text('Generate Bill'),))])
+                        
+                      ],
+                    ),
+                  ),
+                 
+                  ]))
+                  ,
+            ]),
+        
+            ])))
 
     );
   }

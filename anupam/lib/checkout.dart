@@ -35,7 +35,8 @@ class custRetrieve extends State<Checkout>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {makeBill.chkoutData(checkoutcont.text).then((value) => deetlist=value); Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));},
+                                {makeBill.chkoutData(checkoutcont.text).then((value) => deetlist=value);
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));},
                               child: const Text('Next'),))
           ]
         ));
