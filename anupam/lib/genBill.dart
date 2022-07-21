@@ -9,8 +9,9 @@ import 'dart:developer';
 import 'package:anupam/glassmorphism.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:anupam/bill.dart';
-import 'package:pdf/pdf.dart' as w;
+import 'package:pdf/pdf.dart';
 import 'package:anupam/pdfInvoiceAPI.dart';
+import 'package:printing/printing.dart';
 
 
 // Create a new user with a first and last name
@@ -33,27 +34,29 @@ class billPdf extends State<genPdf>{
   }
 
 Widget build(BuildContext context){
-  return Container(
-    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+  return Scaffold(
+    body: PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() ),
+  );
+//   return Container(
+//     padding: const EdgeInsets.all(20.0),
+//                     child: Column(
+//                       children: [
+//                         Row(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               crossAxisAlignment: CrossAxisAlignment.center,
               
-          children:<Widget>[SizedBox(height:35,width:160,
-                      child:ElevatedButton(
-                        onPressed:() async
-                          {
+//           children:<Widget>[SizedBox(height:35,width:160,
+//                       child:ElevatedButton(
+//                         onPressed:() async
+//                           {
                             
-                            // final pdfFile=await PdfInvoiceAPI.generate(makeBill.billdeets,makeBill.values);
-                            print(makeBill.billdeets);
-                            print(makeBill.values);
-                          },
-                        child: const Text('Print'),)),
+//                             PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() );
+//                             print(makeBill.billdeets);
+//                             print(makeBill.values);
+//                           },
+//                         child: const Text('Print'),)),
               
-  ])]));
+//   ])]));
+// }
 }
-
-
 }

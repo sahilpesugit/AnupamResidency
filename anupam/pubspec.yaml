@@ -35,6 +35,7 @@ dependencies:
   cloud_firestore: ^3.1.9
   pdf: ^3.8.0
   path_provider: ^2.0.11
+  printing: ^5.9.1
   open_document: ^1.0.4
   syncfusion_flutter_pdfviewer: ^20.2.38-beta
 dev_dependencies:
@@ -72,6 +73,7 @@ flutter:
   assets:
     - assets/bg.png
     - assets/bg4.jpg
+    - assets/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

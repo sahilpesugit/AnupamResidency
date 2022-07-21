@@ -48,7 +48,10 @@ class makeBill extends State<Billing>{
     DateTime curr =DateTime.now();
     Timestamp stamp=deetlist[2];
     DateTime inTime=DateTime.fromMicrosecondsSinceEpoch(stamp.microsecondsSinceEpoch);
-    final diff=curr.difference(inTime).inDays; //time of stay calculated approximately
+    int diff=curr.difference(inTime).inDays;
+    if(diff==0){
+      diff=1;
+    } //time of stay calculated approximately
     String room=deetlist[1];
     int rate=0; //rate
     QuerySnapshot qs = await rooms.get();
@@ -61,7 +64,6 @@ class makeBill extends State<Billing>{
     billdeets.add(diff);
     return billdeets;
   }
-
   static Future<List<dynamic>> chkoutData(room)async {
     final QuerySnapshot details = await checkin.get();
     
@@ -84,6 +86,7 @@ class makeBill extends State<Billing>{
   _row(int key){
     String name='';
     int rate=0;
+    int quantity=0;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,19 +94,21 @@ class makeBill extends State<Billing>{
         SizedBox(width:80.0),
         SizedBox(width: 180,child: TextFormField(onChanged: (val){name=val;} ,decoration: InputDecoration(border: OutlineInputBorder())),),
         SizedBox(width:10.0),
-        SizedBox(width: 180,child: TextFormField(onChanged: (val1){rate=int.parse(val1);},decoration: InputDecoration(border: OutlineInputBorder())),), 
+        SizedBox(width: 180,child: TextFormField(onChanged: (val1){rate=int.parse(val1);},decoration: InputDecoration(border: OutlineInputBorder())),),
+        SizedBox(width:10.0),
+        SizedBox(width: 180,child: TextFormField(onChanged: (val2){quantity=int.parse(val2);},decoration: InputDecoration(border: OutlineInputBorder())),), 
         SizedBox(width:70,
                       child:ElevatedButton(
                         onPressed:()
                           {
-                            _onUpdate(name, rate);
+                            _onUpdate(name, rate, quantity);
                           },
                         child: const Text('Add'),)),
     ],);
   }
 
-  _onUpdate(String name,int rate ){
-    Map<String,dynamic> json={'name':name,'rate': rate} ;
+  _onUpdate(String name,int rate, int quantity){
+    Map<String,dynamic> json={'name':name, 'quantity': quantity,'rate': rate} ;
     values.add(json);
     // print(values);
   }

@@ -1,12 +1,12 @@
 import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/makereservation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:pdf/pdf.dart' as w;
+// import 'package:flutter/cupertino.dart';
+// import 'package:pdf/pdf.dart' as w;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
