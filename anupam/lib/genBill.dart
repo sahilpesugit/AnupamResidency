@@ -26,7 +26,9 @@ class genPdf extends StatefulWidget {
 // final String locations="bloreeeeeee";
 
 class billPdf extends State<genPdf>{
-  
+  final ButtonStyle style =
+        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+    
   // static int singsbn=0;
   @override
   void dispose() {
@@ -35,28 +37,16 @@ class billPdf extends State<genPdf>{
 
 Widget build(BuildContext context){
   return Scaffold(
-    body: PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() ),
+    body: Stack(children: [
+      PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() ),
+      SizedBox(height:50,width:120,
+                            child:ElevatedButton(
+                              style: style,
+                              onPressed:()
+                                {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
+                              child: const Text('Complete Checkout'),))
+    ],)
   );
-//   return Container(
-//     padding: const EdgeInsets.all(20.0),
-//                     child: Column(
-//                       children: [
-//                         Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-              
-//           children:<Widget>[SizedBox(height:35,width:160,
-//                       child:ElevatedButton(
-//                         onPressed:() async
-//                           {
-                            
-//                             PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() );
-//                             print(makeBill.billdeets);
-//                             print(makeBill.values);
-//                           },
-//                         child: const Text('Print'),)),
-              
-//   ])]));
-// }
 }
 }

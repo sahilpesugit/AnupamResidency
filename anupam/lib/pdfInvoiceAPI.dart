@@ -171,12 +171,8 @@ class PdfInvoiceAPI{
                    )
            ]
         )
-
-
-
-            
-          ]
-        );
+  ]
+);
       })
     );
     return pdf.save();
