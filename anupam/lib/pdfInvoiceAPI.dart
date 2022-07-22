@@ -12,6 +12,13 @@ import 'package:anupam/bill.dart';
 // import 'package:flutter/src/widgets/framework.dart' as fw;
 
 class PdfInvoiceAPI{
+  final int gst=18;
+  static totalTally(){
+    final totalroom=(makeBill.billdeets[6]*makeBill.billdeets[5]);
+    final totalmisc=0;
+    final amt=totalroom+totalmisc;
+    return amt;
+  }
   static Future<Uint8List> makePdf() async{
     Uint8List data = (await rootBundle.load('logo.png'))
           .buffer

@@ -1,4 +1,5 @@
 // import 'dart:ffi';
+import 'package:anupam/MoP.dart';
 import 'package:anupam/checkout.dart';
 import 'package:anupam/main.dart';
 import 'package:anupam/roomalloc.dart';
@@ -44,7 +45,7 @@ Widget build(BuildContext context){
                               style: style,
                               onPressed:()
                                 {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoP()));},
                               child: const Text('Complete Checkout'),))
     ],)
   );
