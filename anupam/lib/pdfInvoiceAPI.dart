@@ -62,7 +62,11 @@ class PdfInvoiceAPI{
                     style: pw.TextStyle(fontSize: 6)),
               ]
             ),
+<<<<<<< Updated upstream
             pw.SizedBox(height:10),
+=======
+            pw.SizedBox(height:20),
+>>>>>>> Stashed changes
             pw.Column(
               children: [
                 pw.Align(
@@ -88,6 +92,11 @@ class PdfInvoiceAPI{
                 ),
               ],
             ),
+<<<<<<< Updated upstream
+=======
+            
+            
+>>>>>>> Stashed changes
 
             pw.SizedBox(height: 20),
             pw.Text('Room Charges'),
