@@ -62,11 +62,11 @@ class PdfInvoiceAPI{
                     style: pw.TextStyle(fontSize: 6)),
               ]
             ),
-<<<<<<< Updated upstream
+
             pw.SizedBox(height:10),
-=======
+
             pw.SizedBox(height:20),
->>>>>>> Stashed changes
+
             pw.Column(
               children: [
                 pw.Align(
@@ -92,11 +92,6 @@ class PdfInvoiceAPI{
                 ),
               ],
             ),
-<<<<<<< Updated upstream
-=======
-            
-            
->>>>>>> Stashed changes
 
             pw.SizedBox(height: 20),
             pw.Text('Room Charges'),
@@ -131,9 +126,9 @@ class PdfInvoiceAPI{
                     pw.Center(child: pw.Text('Amount')),
                   ]
                 ),
-              ] ),
-            pw.Table(
-              children: [
+              
+           
+             
                  for (var i = 0; i < makeBill.values.length; i++)
                   pw.TableRow(
                        children: [
@@ -141,9 +136,8 @@ class PdfInvoiceAPI{
                             //  crossAxisAlignment: pw.CrossAxisAlignment.center,
                             //  mainAxisAlignment: pw.MainAxisAlignment.center,
                              children: [
-                               pw.Text(makeBill.values[i]['name'],
-                                   style: pw.TextStyle(fontSize: 6)),
-                               pw.Divider(thickness: 1)
+                               pw.Text(makeBill.values[i]['name']),
+                               //pw.Divider(thickness: 1)
                              ]
                          ),
                          pw.Column(
@@ -151,9 +145,8 @@ class PdfInvoiceAPI{
                             //      .center,
                             //  mainAxisAlignment: pw.MainAxisAlignment.center,
                              children: [
-                               pw.Text(makeBill.values[i]['quantity'].toString(),
-                                   style: pw.TextStyle(fontSize: 6)),
-                               pw.Divider(thickness: 1)
+                               pw.Text(makeBill.values[i]['quantity'].toString()),
+                               //pw.Divider(thickness: 1)
                              ]
                          ),
                          pw.Column(
@@ -161,9 +154,8 @@ class PdfInvoiceAPI{
                             //      .center,
                             //  mainAxisAlignment: pw.MainAxisAlignment.center,
                              children: [
-                               pw.Text(makeBill.values[i]['rate'].toString(),
-                                   style: pw.TextStyle(fontSize: 6)),
-                               pw.Divider(thickness: 1)
+                               pw.Text(makeBill.values[i]['rate'].toString()),
+                               //pw.Divider(thickness: 1)
                              ]
                          ),
                          pw.Column(
@@ -171,9 +163,8 @@ class PdfInvoiceAPI{
                             //      .center,
                             //  mainAxisAlignment: pw.MainAxisAlignment.center,
                              children: [
-                               pw.Text((makeBill.values[i]['rate']*makeBill.values[i]['quantity']).toString(),
-                                   style: pw.TextStyle(fontSize: 6)),
-                               pw.Divider(thickness: 1)
+                               pw.Text((makeBill.values[i]['rate']*makeBill.values[i]['quantity']).toString()),
+                               //pw.Divider(thickness: 1)
                              ]
                          )
                        ]
