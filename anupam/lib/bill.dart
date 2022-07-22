@@ -92,11 +92,11 @@ class makeBill extends State<Billing>{
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(width:80.0),
-        SizedBox(width: 180,child: TextFormField(onChanged: (val){name=val;} ,decoration: InputDecoration(border: OutlineInputBorder())),),
+        SizedBox(width: 180,child: TextFormField(onChanged: (val){name=val;} ,decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Item')),),
         SizedBox(width:10.0),
-        SizedBox(width: 180,child: TextFormField(onChanged: (val1){rate=int.parse(val1);},decoration: InputDecoration(border: OutlineInputBorder())),),
+        SizedBox(width: 180,child: TextFormField(onChanged: (val1){rate=int.parse(val1);},decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Rate')),),
         SizedBox(width:10.0),
-        SizedBox(width: 180,child: TextFormField(onChanged: (val2){quantity=int.parse(val2);},decoration: InputDecoration(border: OutlineInputBorder())),), 
+        SizedBox(width: 180,child: TextFormField(onChanged: (val2){quantity=int.parse(val2);},decoration: InputDecoration(border: OutlineInputBorder(), hintText: 'Number of items')),), 
         SizedBox(width:70,
                       child:ElevatedButton(
                         onPressed:()

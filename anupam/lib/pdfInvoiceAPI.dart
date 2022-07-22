@@ -17,6 +17,13 @@ class PdfInvoiceAPI{
           .buffer
           .asUint8List();
     final pdf = pw.Document();
+    final mapper={'DoubleAC':'Double AC Room',
+                  'DoubleNAC':'Double Non AC Room',
+                  'TripleAC':'Triple AC Room',
+                  'TripleNAC':'Triple Non AC Room',
+                  'SingleBath':'Single Attached Bath Room',
+                  'SingleSBath':'Single Shared Bath Room',
+                  'Quad':'Four Bed Room'};
     pdf.addPage(
       pw.Page(build: (context){
         return pw.Column(
@@ -50,17 +57,37 @@ class PdfInvoiceAPI{
               children: [
                 pw.Text('${makeBill.billdeets[1]}',
                     style: pw.TextStyle(fontSize: 6)),
-                pw.SizedBox(width: 60),
+                pw.SizedBox(width: 62),
                 pw.Text('${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}',
                     style: pw.TextStyle(fontSize: 6)),
               ]
             ),
-            pw.Text('Billed To,',
-            style: pw.TextStyle(fontSize: 7)),
-            pw.Text('${makeBill.billdeets[0]}.', 
-            style: pw.TextStyle(fontSize: 6)),
-            pw.Text('${makeBill.billdeets[3]}.', 
-            style: pw.TextStyle(fontSize: 6)),
+            pw.SizedBox(height:10),
+            pw.Column(
+              children: [
+                pw.Align(
+                  alignment: pw.Alignment.centerLeft,
+                  child: pw.Container(
+                    child:pw.Text('Billed To,',
+                    style: pw.TextStyle(fontSize: 7)),
+                  ),
+                ),
+                pw.Align(
+                  alignment: pw.Alignment.centerLeft,
+                  child: pw.Container(
+                    child: pw.Text('${makeBill.billdeets[0]}.', 
+                    style: pw.TextStyle(fontSize: 6)),
+                  ),
+                ),
+                pw.Align(
+                  alignment: pw.Alignment.centerLeft,
+                  child: pw.Container(
+                    child: pw.Text('${makeBill.billdeets[3]}.', 
+                    style: pw.TextStyle(fontSize: 6)),
+                  ),
+                ),
+              ],
+            ),
 
             pw.SizedBox(height: 20),
             pw.Text('Room Charges'),
@@ -68,10 +95,18 @@ class PdfInvoiceAPI{
               children:[
                 pw.TableRow(
                   children: [
-                    pw.Center(child: pw.Text('Description')),
+                    pw.Center(child: pw.Text('Room type')),
                     pw.Center(child: pw.Text('No. of Days')),
                     pw.Center(child: pw.Text('Rate')),
                     pw.Center(child: pw.Text('Amount')),
+                  ]
+                ),
+                pw.TableRow(
+                  children: [
+                    pw.Center(child: pw.Text('${mapper['${makeBill.billdeets[4]}']}')),
+                    pw.Center(child: pw.Text('${makeBill.billdeets[6]}')),
+                    pw.Center(child: pw.Text('${makeBill.billdeets[5]}')),
+                    pw.Center(child: pw.Text((makeBill.billdeets[6]*makeBill.billdeets[5]).toString())),
                   ]
                 ),
               ] ),
@@ -88,55 +123,54 @@ class PdfInvoiceAPI{
                   ]
                 ),
               ] ),
-        //     pw.Table(
-        //       children: [
-        //          for (var i = 0; i < makeBill.values.length; i++)
-        //           pw.TableRow(
-        //                children: [
-        //                  pw.Column(
-        //                      crossAxisAlignment: pw.CrossAxisAlignment
-        //                          .center,
-        //                      mainAxisAlignment: pw.MainAxisAlignment.center,
-        //                      children: [
-        //                        pw.Text(makeBill.values[i][0],
-        //                            style: pw.TextStyle(fontSize: 6)),
-        //                        pw.Divider(thickness: 1)
-        //                      ]
-        //                  ),
-        //                  pw.Column(
-        //                      crossAxisAlignment: pw.CrossAxisAlignment
-        //                          .center,
-        //                      mainAxisAlignment: pw.MainAxisAlignment.center,
-        //                      children: [
-        //                        pw.Text(makeBill.values[i][1],
-        //                            style: pw.TextStyle(fontSize: 6)),
-        //                        pw.Divider(thickness: 1)
-        //                      ]
-        //                  ),
-        //                  pw.Column(
-        //                      crossAxisAlignment: pw.CrossAxisAlignment
-        //                          .center,
-        //                      mainAxisAlignment: pw.MainAxisAlignment.center,
-        //                      children: [
-        //                        pw.Text(makeBill.values[i][2],
-        //                            style: pw.TextStyle(fontSize: 6)),
-        //                        pw.Divider(thickness: 1)
-        //                      ]
-        //                  ),
-        //                  pw.Column(
-        //                      crossAxisAlignment: pw.CrossAxisAlignment
-        //                          .center,
-        //                      mainAxisAlignment: pw.MainAxisAlignment.center,
-        //                      children: [
-        //                        pw.Text(makeBill.values[i][1]*makeBill.values[i][2],
-        //                            style: pw.TextStyle(fontSize: 6)),
-        //                        pw.Divider(thickness: 1)
-        //                      ]
-        //                  )
-        //                ]
-        //            )
-        //    ]
-        // )
+            pw.Table(
+              children: [
+                 for (var i = 0; i < makeBill.values.length; i++)
+                  pw.TableRow(
+                       children: [
+                         pw.Column(
+                            //  crossAxisAlignment: pw.CrossAxisAlignment.center,
+                            //  mainAxisAlignment: pw.MainAxisAlignment.center,
+                             children: [
+                               pw.Text(makeBill.values[i]['name'],
+                                   style: pw.TextStyle(fontSize: 6)),
+                               pw.Divider(thickness: 1)
+                             ]
+                         ),
+                         pw.Column(
+                            //  crossAxisAlignment: pw.CrossAxisAlignment
+                            //      .center,
+                            //  mainAxisAlignment: pw.MainAxisAlignment.center,
+                             children: [
+                               pw.Text(makeBill.values[i]['quantity'].toString(),
+                                   style: pw.TextStyle(fontSize: 6)),
+                               pw.Divider(thickness: 1)
+                             ]
+                         ),
+                         pw.Column(
+                            //  crossAxisAlignment: pw.CrossAxisAlignment
+                            //      .center,
+                            //  mainAxisAlignment: pw.MainAxisAlignment.center,
+                             children: [
+                               pw.Text(makeBill.values[i]['rate'].toString(),
+                                   style: pw.TextStyle(fontSize: 6)),
+                               pw.Divider(thickness: 1)
+                             ]
+                         ),
+                         pw.Column(
+                            //  crossAxisAlignment: pw.CrossAxisAlignment
+                            //      .center,
+                            //  mainAxisAlignment: pw.MainAxisAlignment.center,
+                             children: [
+                               pw.Text((makeBill.values[i]['rate']*makeBill.values[i]['quantity']).toString(),
+                                   style: pw.TextStyle(fontSize: 6)),
+                               pw.Divider(thickness: 1)
+                             ]
+                         )
+                       ]
+                   )
+           ]
+        )
 
 
 
