@@ -28,6 +28,7 @@ class makeBill extends State<Billing>{
   static List<Map<String,dynamic>> values=[];
   static List<dynamic> chkoutdeet=[];
   var snapshot;
+  var roomtype;
   static var billdeets;
   int miscItems=0;
   TextEditingController misccont=new TextEditingController();
@@ -39,9 +40,17 @@ class makeBill extends State<Billing>{
     
     checkin.where("roomno", isEqualTo: "${room}").get().then((snapshot) {
       snapshot.docs[0].reference.delete();
+      updateonDel(billdeets);
      //change status in the room colllection to available
     });
   }
+
+  void updateonDel(billdeets)async {
+      CollectionReference roomref = FirebaseFirestore.instance.collection('Rooms').doc('${billdeets[4]}').collection("rooms");
+
+    var docref = roomref.doc('${billdeets[1]}');
+    var res = await docref.update({'avail': 'y'});
+   }
 
 
   static Future<List<dynamic>> genBill(deetlist) async{
@@ -80,6 +89,7 @@ class makeBill extends State<Billing>{
                 };});
     
     return(list);
+
    
 
   }
@@ -212,7 +222,11 @@ class makeBill extends State<Billing>{
                                   setState(() {
                                   billdeets=billdeets;
                                   });
+<<<<<<< Updated upstream
                                   
+=======
+                                  delDoc(billdeets[1]);
+>>>>>>> Stashed changes
                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>genPdf())); 
                             },
                           child: const Text('Generate Bill'),))])

@@ -48,7 +48,7 @@ class custReg extends State<Checkin>{
     //final ntext=namecont.value.text;
     //final ltext=locationcont.value.text;
     final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
-    if(!phoneRegExp.hasMatch(phtext)){
+    if(phtext.length!=10){
       return 'Invalid Phone Number';
     }
     if(phtext.isEmpty) {
@@ -99,7 +99,7 @@ class custReg extends State<Checkin>{
                   SizedBox(height:35,width:160,
                             child:ElevatedButton(
                               style: style,
-                              onPressed:(phNocont.value.text.isNotEmpty)&&(namecont.value.text.isNotEmpty)&&(locationcont.value.text.isNotEmpty)
+                              onPressed:(phNocont.value.text.length==10)&&(namecont.value.text.isNotEmpty)&&(locationcont.value.text.isNotEmpty)
                               ?()
                                 // {Map<String,dynamic> data={"name":namecont,"phNo":phNocont,"location":locationcont};
                                 // FirebaseFirestore.instance.collection("CheckIn").add(data);

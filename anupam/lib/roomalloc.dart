@@ -8,6 +8,8 @@ import 'package:anupam/bill.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
 class RoomAlloc extends StatefulWidget {
   TextEditingController namecont=new TextEditingController();
   TextEditingController phNocont=new TextEditingController();
@@ -25,6 +27,8 @@ class RoomAlloc extends StatefulWidget {
 }
 
 class roomAlloc extends State<RoomAlloc>{
+
+ 
   String roomno="";
   var roomtype;
   //var psingsb=getData(singsbrooms);
@@ -86,6 +90,26 @@ class roomAlloc extends State<RoomAlloc>{
   // };
   // }
  Widget build(BuildContext context) {
+  //  void _showToast(BuildContext context) {
+  //   final scaffold = ScaffoldMessenger.of(context);
+  //   scaffold.showSnackBar(
+  //     SnackBar(
+  //       content: const Text('Added to favorite'),
+  //       //action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+  //     ),
+  //   );
+  // } 
+  //     void showToast() {  
+  //   Fluttertoast.showToast(  
+  //       msg: 'This is a toast notification',  
+  //       // toastLength: Toast.LENGTH_LONG,  
+  //       // gravity: ToastGravity.CENTER,  
+  //       // timeInSecForIosWeb: 5,  
+  //       // backgroundColor: Colors.red,  
+  //       // textColor: Colors.white,
+  //       // fontSize: 16.0  
+  //   );  
+  // } 
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
     Future<void> addCheckin() {
       // Call the user's CollectionReference to add a new user
@@ -104,7 +128,10 @@ class roomAlloc extends State<RoomAlloc>{
    }
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-        var buttons=new Container(
+        var buttons=
+        //OKToast(
+          //child: 
+          Container(
           padding: const EdgeInsets.all(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,11 +146,22 @@ class roomAlloc extends State<RoomAlloc>{
                   SizedBox(height:35,width:160,
                             child:ElevatedButton(
                               style: style,
-                              onPressed:(){addCheckin();editStatus(roomno, finaltype);
-                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));}},
+                              onPressed:(){
+                                
+                                // setState(() {
+                                //   showToast("Toast!!",
+                                //   position: ToastPosition.top,
+                                //   backgroundColor: Color(0xFFEE507A),
+                                //   radius: 13.0,
+                                //   textStyle: TextStyle(fontSize: 18.0,color: Colors.white),);
+                                // });
+                                 addCheckin();editStatus(roomno, finaltype);
+                                //{Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));}
+                                },
                               child: const Text('Confirm'),))
           ]
         ));
+        //);
     return Container(
       decoration: BoxDecoration(  
             gradient: LinearGradient(
@@ -160,7 +198,11 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Single(Shared Bathroom)",textScaleFactor: 1.5),),
                   // Center(child: Text("${singsb.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String selsingsb=singsb.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(singsb.length==0)
+                                                              {
+                                                                  showToast('Single(Shared Bathroom) is fully booked',position: ToastPosition.bottom);
+                                                              }
+                                                            String selsingsb=singsb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single-Shared Bath"),
                                               content: DropdownButton(value: selsingsb,
                                                                       items: singsb.map((String singsb) {
@@ -183,7 +225,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Single Room Non A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${singb.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String selsingb=singb.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(singb.length==0)
+                                                              {
+                                                                  showToast('Single Room Non A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String selsingb=singb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single Room Non A/C"),
                                               content: DropdownButton(value: selsingb,
                                                                       items: singb.map((String singb) {
@@ -206,7 +251,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Double Room Non A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${dubn.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String seldubn=dubn.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(dubn.length==0)
+                                                              {
+                                                                  showToast('Double Room Non A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String seldubn=dubn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room Non A/C"),
                                               content: DropdownButton(value: seldubn,
                                                                       items: dubn.map((String dubn) {
@@ -229,7 +277,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Double Room A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${dubac.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String seldubac=dubac.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(dubac.length==0)
+                                                              {
+                                                                  showToast('Double Room A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String seldubac=dubac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room A/C"),
                                               content: DropdownButton(value: seldubac,
                                                                       items: dubac.map((String dubac) {
@@ -252,7 +303,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Triple Room Non A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${tripn.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String seltripn=tripn.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(tripn.length==0)
+                                                              {
+                                                                  showToast('Triple Room Non A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String seltripn=tripn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room Non A/C"),
                                               content: DropdownButton(value: seltripn,
                                                                       items: tripn.map((String tripn) {
@@ -275,7 +329,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Triple Room A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${tripac.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String seltripac=tripac.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(tripac.length==0)
+                                                              {
+                                                                  showToast('Triple Room A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String seltripac=tripac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room A/C"),
                                               content: DropdownButton(value: seltripac,
                                                                       items: tripac.map((String tripac) {
@@ -298,7 +355,10 @@ class roomAlloc extends State<RoomAlloc>{
                   Center(child: Text("Four Bed Room Non A/C",textScaleFactor: 1.5),),
                   // Center(child: Text("${quad.length}",textScaleFactor: 1.5),),
                   Center(child: ElevatedButton(child: Text('Allot'),
-                                              onPressed: (){String selquad=quad.first;showDialog(context: context, builder: (context)=>AlertDialog(
+                                              onPressed: (){if(quad.length==0)
+                                                              {
+                                                                  showToast('Four Bed Room Non A/C is fully booked',position: ToastPosition.bottom);
+                                                              }String selquad=quad.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Four Bed Room Non A/C"),
                                               content: DropdownButton(value: selquad,
                                                                       items: quad.map((String quad) {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:oktoast/oktoast.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:pdf/pdf.dart' as w;
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
   // the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return 
+    OKToast(child:  MaterialApp(
       title: 'Anupam Hotel',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
           return CircularProgressIndicator();
         }
       )
-    );
+    ));
   }
 }
 
