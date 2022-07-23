@@ -1,4 +1,6 @@
 // import 'dart:ffi';
+import 'dart:html';
+
 import 'package:anupam/MoP.dart';
 import 'package:anupam/checkout.dart';
 import 'package:anupam/main.dart';
@@ -29,13 +31,38 @@ class genPdf extends StatefulWidget {
 class billPdf extends State<genPdf>{
   final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+     static List<dynamic> amt=[];
+  totalTally(){
+    final totalroom=(makeBill.billdeets[6]*makeBill.billdeets[5]);
+    final amttab=[];
+    double totalmisc=0;
+    final nactaxrate=12;
+    final actaxrate=15;
+    if(makeBill.values.length>0){
+      makeBill.values.forEach((element) { 
+      totalmisc =(element['rate']*element['quantity'])+totalmisc;
+    });
+    }
     
-  // static int singsbn=0;
+    double preamt=totalroom+totalmisc;
+    double postamt=0;
+    if(makeBill.billdeets[5]>=1000){
+      postamt=((actaxrate*preamt)/100)+preamt;
+    }
+    else{
+      postamt=((nactaxrate*preamt)/100)+preamt;
+    }
+    print(preamt);
+    print(postamt);
+    amttab.add(preamt);
+    amttab.add(postamt);
+    return amttab;
+  }
   @override
   void dispose() {
     
   }
-
+ 
 Widget build(BuildContext context){
   return Scaffold(
     body: Stack(children: [
@@ -45,6 +72,8 @@ Widget build(BuildContext context){
                               style: style,
                               onPressed:()
                                 {
+                                  amt=totalTally();
+
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoP()));},
                               child: const Text('Complete Checkout'),))
     ],)

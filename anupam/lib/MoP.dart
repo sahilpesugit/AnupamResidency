@@ -25,11 +25,14 @@ class paymentPage extends State<MoP>{
   return menuItems;
 }
   String modeP='Cash';
-  updateAcc(String modeP,int amt){
+  updateAcc(String modeP,var amt){
     return acc
           .add({
             "mode": modeP,
-            // "amount":amt
+            "preTamount":amt[0],
+            "amount":amt[1],
+            "phNo": makeBill.billdeets[3],
+            "date":DateTime.now()
               })
           .then((value) => print("Transaction Added")) //Add a toast with success
           .catchError((error) => print("Failed to add user: $error"));
@@ -38,7 +41,7 @@ class paymentPage extends State<MoP>{
  Widget build(BuildContext context) {
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
-    int amt=0;
+    // int amt=0;
     return Container(
       decoration: BoxDecoration(  
             gradient: LinearGradient(
@@ -66,8 +69,8 @@ class paymentPage extends State<MoP>{
                               style: style,
                               onPressed:()
                                 {
-                                  // PdfInvoiceAPI.totalTally().then((value)=>{amt=value});
-                                  updateAcc(modeP,amt);
+                                  
+                                  updateAcc(modeP,billPdf.amt);
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
                               child: const Text('Complete Payment'),))
                 

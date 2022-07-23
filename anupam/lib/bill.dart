@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/roomalloc.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-
+import 'package:anupam/pdfInvoiceAPI.dart';
 
 class Billing extends StatefulWidget {
   TextEditingController checkoutcont=new TextEditingController();
@@ -22,6 +22,7 @@ class makeBill extends State<Billing>{
   static CollectionReference checkin = FirebaseFirestore.instance.collection('CheckIn');
   static CollectionReference tariff = FirebaseFirestore.instance.collection('Tariff');
   static CollectionReference rooms = FirebaseFirestore.instance.collection('Rooms');
+ 
   // int isPressed = 0;
   int _count=0;
   static List<Map<String,dynamic>> values=[];
@@ -64,6 +65,7 @@ class makeBill extends State<Billing>{
     billdeets.add(diff);
     return billdeets;
   }
+ 
   static Future<List<dynamic>> chkoutData(room)async {
     final QuerySnapshot details = await checkin.get();
     
@@ -170,7 +172,12 @@ class makeBill extends State<Billing>{
                               onPressed:() async
                                 {
                                   setState(() {
-                                  _count=0;
+                                    if(_count==0){
+                                      _count=0;
+                                    }
+                                    else{
+                                      _count--;
+                                    }
                                   }); },child: const Text('-'))),]),
                   Container(
                     padding: const EdgeInsets.all(20.0),
@@ -205,6 +212,7 @@ class makeBill extends State<Billing>{
                                   setState(() {
                                   billdeets=billdeets;
                                   });
+                                  
                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>genPdf())); 
                             },
                           child: const Text('Generate Bill'),))])
