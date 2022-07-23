@@ -156,7 +156,7 @@ class roomAlloc extends State<RoomAlloc>{
                                 //   textStyle: TextStyle(fontSize: 18.0,color: Colors.white),);
                                 // });
                                  addCheckin();editStatus(roomno, finaltype);
-                                //{Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));}
+                                {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));}
                                 },
                               child: const Text('Confirm'),))
           ]

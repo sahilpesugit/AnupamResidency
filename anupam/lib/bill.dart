@@ -222,11 +222,9 @@ class makeBill extends State<Billing>{
                                   setState(() {
                                   billdeets=billdeets;
                                   });
-<<<<<<< Updated upstream
-                                  
-=======
+
                                   delDoc(billdeets[1]);
->>>>>>> Stashed changes
+
                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>genPdf())); 
                             },
                           child: const Text('Generate Bill'),))])
