@@ -1,3 +1,4 @@
+import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,34 +72,61 @@ class custRetrieve extends State<Checkout>{
           ]
         ));
     return Container(
-      decoration: BoxDecoration(  
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color.fromRGBO(255, 125, 49,1.0),Color.fromRGBO(255, 252, 128,1.0)]
-              ), 
-          ),  
+      constraints: BoxConstraints.expand(),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/bg4.jpg"),
+            fit: BoxFit.cover),
+              ),   
        child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(
                 children: <Widget>[ 
-                  const SizedBox(height:250),
-                 SizedBox( width:400,
-                   child: TextField(
+                  const SizedBox(height:50),
+                  const Center(
+                    child:Text(
+                      "Check-Out",
+                      style: TextStyle(
+                        color: Colors.deepOrangeAccent,
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ),
+                 SizedBox( height:200),
+                 // width:400,
+                 Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                  ),
+                  child: Glassmorphism(
+                    blur: 10,
+                    opacity: 0.07,
+                    radius: 20,
+                    child: Container(
+                      height:175,
+                      width: 500,
+                      alignment: Alignment.topCenter,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                    TextField(
                     controller: checkoutcont,
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Room Number',),)),
+                      labelText: 'Room Number',),),
+                      const SizedBox(height:5),
                       buttons,
                  
                       
                   
-              ]))
-            )
+              ]),)),),],),),),);
 
-    );
+            
+
+    
   }
 
 

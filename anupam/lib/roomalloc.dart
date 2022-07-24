@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:anupam/checkin.dart';
+import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,6 +56,15 @@ class roomAlloc extends State<RoomAlloc>{
   static List<String> tripn=[];
   static List<String> tripac=[];
   static List<String> quad=[];
+  static const rowSpacer=TableRow(
+                  children: [
+                      SizedBox(
+                      height: 8,
+                      ),
+                      SizedBox(
+                      height: 8,
+                      )
+                ]);  
   
   //make this list by querying the firestoreDB
   
@@ -110,6 +120,14 @@ class roomAlloc extends State<RoomAlloc>{
   //       // fontSize: 16.0  
   //   );  
   // } 
+  // Container(
+  // constraints: BoxConstraints.expand(),
+  // decoration: const BoxDecoration(
+  //   image: DecorationImage(
+  //       image: AssetImage("assets/bg4.jpg"), 
+  //       fit: BoxFit.cover),
+  // ),
+  // );
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
     Future<void> addCheckin() {
       // Call the user's CollectionReference to add a new user
@@ -163,24 +181,55 @@ class roomAlloc extends State<RoomAlloc>{
         ));
         //);
     return Container(
-      decoration: BoxDecoration(  
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color.fromRGBO(255, 125, 49,1.0),Color.fromRGBO(255, 252, 128,1.0)]
+      //Container(
+  // constraints: BoxConstraints.expand(),
+  // decoration: const BoxDecoration(
+  //   image: DecorationImage(
+  //       image: AssetImage("assets/bg4.jpg"), 
+  //       fit: BoxFit.cover),
+  // ),
+  // );
+      constraints: BoxConstraints.expand(),
+      decoration:const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/bg4.jpg"),
+                fit: BoxFit.cover ),
               ), 
-          ),  
+          
        child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Column(
         children:<Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Room Allocation",textScaleFactor: 2,style: TextStyle(fontWeight:FontWeight.bold),),
+          const SizedBox(height: 50.0),
+          const Center(
+            child: Text(
+              "Room Allocation",
+              style: TextStyle(
+                fontWeight:FontWeight.bold,
+                color: Colors.deepOrangeAccent,
+                fontSize: 40.0),),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Table(
+          const SizedBox(height: 200),
+          Padding( 
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Glassmorphism(
+                blur: 10,
+                 opacity: 0.07,
+                  radius: 20,
+                  child: Container(
+                    height: 450,
+                    width: 700,
+                    alignment: Alignment.topCenter,
+                    padding: const EdgeInsets.all(20),
+                    child:Column(
+                      children: [
+
+                      
+
+          
+            Table(
                
             // textDirection: TextDirection.rtl,
             // defaultVerticalAlignment: TableCellVerticalAlignment.bottom,
@@ -188,16 +237,17 @@ class roomAlloc extends State<RoomAlloc>{
             children: [
               TableRow(
                 children: [
-                  Center(child: Text("Room Type",textScaleFactor: 1.5,),),
+                  Center(child: Text("Room Type",textScaleFactor: 1.5,style: TextStyle(color: Colors.deepOrangeAccent,decoration: TextDecoration.underline),),),
                   // Center(child: Text("Number of rooms Available",textScaleFactor: 1.5),),
-                  Center(child: Text("Links",textScaleFactor: 1.5),)
+                  Center(child: Text("",textScaleFactor: 1.5),)
                 ]
               ),
+              rowSpacer,
                TableRow(
                 children: [
-                  Center(child: Text("Single(Shared Bathroom)",textScaleFactor: 1.5),),
+                  Center(child: Text("Single(Shared Bathroom)",textScaleFactor: 1.5,style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${singsb.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(singsb.length==0)
                                                               {
                                                                   showToast('Single(Shared Bathroom) is fully booked',position: ToastPosition.bottom);
@@ -221,11 +271,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleSBath";roomno=selsingsb;finaltype=singsbrooms;Navigator.pop(context);})] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Single Room Non A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Single Room Non A/C",textScaleFactor: 1.5,style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${singb.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(singb.length==0)
                                                               {
                                                                   showToast('Single Room Non A/C is fully booked',position: ToastPosition.bottom);
@@ -248,11 +299,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleBath";roomno=selsingb;finaltype=singbrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Double Room Non A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Double Room Non A/C",textScaleFactor: 1.5, style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${dubn.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(dubn.length==0)
                                                               {
                                                                   showToast('Double Room Non A/C is fully booked',position: ToastPosition.bottom);
@@ -274,11 +326,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="DoubleNAC";roomno=seldubn;finaltype=dubnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Double Room A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Double Room A/C",textScaleFactor: 1.5, style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${dubac.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(dubac.length==0)
                                                               {
                                                                   showToast('Double Room A/C is fully booked',position: ToastPosition.bottom);
@@ -300,11 +353,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="DoubleAC";roomno=seldubac;finaltype=dubacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Triple Room Non A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Triple Room Non A/C",textScaleFactor: 1.5, style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${tripn.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(tripn.length==0)
                                                               {
                                                                   showToast('Triple Room Non A/C is fully booked',position: ToastPosition.bottom);
@@ -326,11 +380,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="TripleNAC";roomno=seltripn;finaltype=tripnrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Triple Room A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Triple Room A/C",textScaleFactor: 1.5, style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${tripac.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(tripac.length==0)
                                                               {
                                                                   showToast('Triple Room A/C is fully booked',position: ToastPosition.bottom);
@@ -352,11 +407,12 @@ class roomAlloc extends State<RoomAlloc>{
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="TripleAC";roomno=seltripac;finaltype=tripacrooms;Navigator.pop(context);},),] ));},))
                 ]
               ),
+              rowSpacer,
               TableRow(
                 children: [
-                  Center(child: Text("Four Bed Room Non A/C",textScaleFactor: 1.5),),
+                  Center(child: Text("Four Bed Room Non A/C",textScaleFactor: 1.5, style: TextStyle(color: Colors.deepOrangeAccent),),),
                   // Center(child: Text("${quad.length}",textScaleFactor: 1.5),),
-                  Center(child: ElevatedButton(child: Text('Allot'),
+                  Center(child: ElevatedButton(child: Text('Select'),
                                               onPressed: (){if(quad.length==0)
                                                               {
                                                                   showToast('Four Bed Room Non A/C is fully booked',position: ToastPosition.bottom);
@@ -380,7 +436,7 @@ class roomAlloc extends State<RoomAlloc>{
               ),
             ],
         ),
-          ),buttons
+          buttons]),)),)
         ]
       ),
     ));

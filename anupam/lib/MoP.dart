@@ -43,19 +43,21 @@ class paymentPage extends State<MoP>{
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
     // int amt=0;
     return Container(
-      decoration: BoxDecoration(  
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color.fromRGBO(255, 125, 49,1.0),Color.fromRGBO(255, 252, 128,1.0)]
-              ), 
-          ),  
+      constraints: BoxConstraints.expand(),
+      decoration:const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/bg4.jpg"),
+                fit: BoxFit.cover ),
+              ),   
        child: Scaffold(
             backgroundColor: Colors.transparent,
             body: Center(
               child: Column(
-                children: <Widget>[ 
-                  const SizedBox(height:250),
+                children: <Widget>[
+                  const SizedBox(height:200), 
+                  Padding(padding: const EdgeInsets.all(8.0),
+                  child: Text("Select the Mode of Payment",textScaleFactor: 2, style: TextStyle(color: Colors.deepOrangeAccent),),),
+                  const SizedBox(height:200),
                   DropdownButton(
                     value: modeP,
                     items: dditems,

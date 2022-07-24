@@ -149,7 +149,7 @@ class custReg extends State<Checkin>{
                   ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(height: 200),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,

@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatelessWidget {
   const HomePage({ Key? key }) : super(key: key);
-  
+  static String path =  "assets/bg4.jpg";
   @override
   Widget build(BuildContext context) {
     final ButtonStyle style =
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             height: double.infinity,
-            child: Image.asset("assets/bg4.jpg",
+            child: Image.asset(path,
             fit: BoxFit.cover,
             ),
           ),
@@ -124,45 +124,49 @@ class HomePage extends StatelessWidget {
                         ),
                       ),),
                       const Spacer(),
-                      Glassmorphism(
-                        blur: 10, 
-                        opacity: 1.0, 
-                        radius: 100.0, 
-                        child: ElevatedButton(
+                      // Glassmorphism(
+                      //   blur: 10, 
+                      //   opacity: 1.0, 
+                      //   radius: 100.0, 
+                        //child:
+                         ElevatedButton(
                   
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkin(onSubmit: (value) => value,)));},
-                  child: const Text('Check-in'))),
+                  child: const Text('Check-in')),
                   const SizedBox(height:10),       
-                 Glassmorphism(
-                        blur: 10, 
-                        opacity: 1.0, 
-                        radius: 100.0, 
-                        child: ElevatedButton(
+                //  Glassmorphism(
+                //         blur: 10, 
+                //         opacity: 1.0, 
+                //         radius: 100.0, 
+                //         child: 
+                ElevatedButton(
                   
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                  child: const Text('Check-out'))),
+                  child: const Text('Check-out')),
                   const SizedBox(height: 10),
-                  Glassmorphism(
-                        blur: 10, 
-                        opacity: 1.0, 
-                        radius: 100.0, 
-                        child: ElevatedButton(
+                  // Glassmorphism(
+                  //       blur: 10, 
+                  //       opacity: 1.0, 
+                  //       radius: 100.0, 
+                  //       child: 
+                  ElevatedButton(
                   
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MakeReserve(onSubmit: (value) => value,)));},
-                  child: const Text('Make Reservation'))),
+                  child: const Text('Make Reservation')),
                   const SizedBox(height: 10),
-                  Glassmorphism(
-                        blur: 10, 
-                        opacity: 1.0, 
-                        radius: 100.0, 
-                        child: ElevatedButton(
+                  // Glassmorphism(
+                  //       blur: 10, 
+                  //       opacity: 1.0, 
+                  //       radius: 100.0, 
+                  //       child: 
+                  ElevatedButton(
                   
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                  child: const Text('Cancel Reservation'))),
+                  child: const Text('Cancel Reservation')),
                     ]),),
                 ),),
                 const SizedBox(
