@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/bill.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer';
+import 'package:oktoast/oktoast.dart';
 class Checkout extends StatefulWidget {
   const Checkout({ Key? key }) : super(key: key);
 
@@ -14,9 +15,27 @@ class Checkout extends StatefulWidget {
 
 class custRetrieve extends State<Checkout>{
   TextEditingController checkoutcont=new TextEditingController();
+  CollectionReference checkin = FirebaseFirestore.instance.collection("CheckIn");
+  var checker;
   static List<dynamic> deetlist=[];
   @override
  Widget build(BuildContext context) {
+   
+   
+    Future<bool> checkDB(String roomno) async{
+      final QuerySnapshot details = await checkin.get();
+      List temp=details.docs.where((element) => element.get('roomno')=='$roomno').toList();
+      
+      if(temp.length>0){
+        return true;
+      }
+      else{
+        return false;
+      }
+      
+      
+      
+    }
     final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
         var buttons=new Container(
@@ -35,8 +54,19 @@ class custRetrieve extends State<Checkout>{
                             child:ElevatedButton(
                               style: style,
                               onPressed:()
-                                {makeBill.chkoutData(checkoutcont.text).then((value) => deetlist=value);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));},
+                                {
+                                  checkDB(checkoutcont.text).then((value) => checker=value);
+                                  print(checker);
+                                  if(checker){
+                                    makeBill.chkoutData(checkoutcont.text).then((value) => deetlist=value);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Billing(checkoutcont:checkoutcont)));  
+                                }
+                                else{
+                                    showToast('Room not currently occupied',position: ToastPosition.bottom);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));
+                                  }
+                                  }
+                                  ,
                               child: const Text('Next'),))
           ]
         ));
@@ -62,18 +92,7 @@ class custRetrieve extends State<Checkout>{
                       border: OutlineInputBorder(),
                       labelText: 'Room Number',),)),
                       buttons,
-                  /*SizedBox(height:35,width:160,
-                      child:ElevatedButton(
-                        style: style,
-                        onPressed:()
-                          {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                        child: const Text('Next'),)),
-                  SizedBox(height:35,width:160,
-                      child:ElevatedButton(
-                        style: style,
-                        onPressed:()
-                          {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
-                        child: const Text('Back'),))*/ 
+                 
                       
                   
               ]))

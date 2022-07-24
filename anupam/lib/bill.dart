@@ -8,6 +8,7 @@ import 'package:anupam/roomalloc.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:anupam/pdfInvoiceAPI.dart';
 
+
 class Billing extends StatefulWidget {
   TextEditingController checkoutcont=new TextEditingController();
   Billing({ Key? key,
@@ -86,7 +87,8 @@ class makeBill extends State<Billing>{
                   list.add(element.get("date"));
                   list.add(element.get("phNo").toString());
                   list.add(element.get("roomtype"));
-                };});
+                }
+                ;});
     
     return(list);
 
