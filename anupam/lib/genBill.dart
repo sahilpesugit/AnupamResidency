@@ -32,12 +32,13 @@ class billPdf extends State<genPdf>{
   final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
      static List<dynamic> amt=[];
-  totalTally(){
+  static totalTally(){
     final totalroom=(makeBill.billdeets[6]*makeBill.billdeets[5]);
     final amttab=[];
     double totalmisc=0;
     final nactaxrate=12;
     final actaxrate=15;
+    final finaltax;
     if(makeBill.values.length>0){
       makeBill.values.forEach((element) { 
       totalmisc =(element['rate']*element['quantity'])+totalmisc;
@@ -48,14 +49,19 @@ class billPdf extends State<genPdf>{
     double postamt=0;
     if(makeBill.billdeets[5]>=1000){
       postamt=((actaxrate*preamt)/100)+preamt;
+      finaltax=actaxrate;
     }
     else{
       postamt=((nactaxrate*preamt)/100)+preamt;
+      finaltax=nactaxrate;
     }
     print(preamt);
     print(postamt);
     amttab.add(preamt);
     amttab.add(postamt);
+    amttab.add(totalroom);
+    amttab.add(totalmisc);
+    amttab.add(finaltax);
     return amttab;
   }
   @override
