@@ -204,7 +204,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                               }
                                                             String selsingsb=singsb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single-Shared Bath"),
-                                              content: DropdownButton(value: selsingsb,
+                                              content: DropdownButtonFormField(value: selsingsb,
                                                                       items: singsb.map((String singsb) {
                                                                           return DropdownMenuItem(
                                                                             value: singsb,
@@ -230,7 +230,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Single Room Non A/C is fully booked',position: ToastPosition.bottom);
                                                               }String selsingb=singb.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Single Room Non A/C"),
-                                              content: DropdownButton(value: selsingb,
+                                              content: DropdownButtonFormField(value: selsingb,
                                                                       items: singb.map((String singb) {
                                                                           return DropdownMenuItem(
                                                                             value: singb,
@@ -256,7 +256,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Double Room Non A/C is fully booked',position: ToastPosition.bottom);
                                                               }String seldubn=dubn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room Non A/C"),
-                                              content: DropdownButton(value: seldubn,
+                                              content: DropdownButtonFormField(value: seldubn,
                                                                       items: dubn.map((String dubn) {
                                                                           return DropdownMenuItem(
                                                                             value: dubn,
@@ -282,7 +282,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Double Room A/C is fully booked',position: ToastPosition.bottom);
                                                               }String seldubac=dubac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Double Room A/C"),
-                                              content: DropdownButton(value: seldubac,
+                                              content: DropdownButtonFormField(value: seldubac,
                                                                       items: dubac.map((String dubac) {
                                                                           return DropdownMenuItem(
                                                                             value: dubac,
@@ -308,7 +308,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Triple Room Non A/C is fully booked',position: ToastPosition.bottom);
                                                               }String seltripn=tripn.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room Non A/C"),
-                                              content: DropdownButton(value: seltripn,
+                                              content: DropdownButtonFormField(value: seltripn,
                                                                       items: tripn.map((String tripn) {
                                                                           return DropdownMenuItem(
                                                                             value: tripn,
@@ -334,7 +334,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Triple Room A/C is fully booked',position: ToastPosition.bottom);
                                                               }String seltripac=tripac.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Triple Room A/C"),
-                                              content: DropdownButton(value: seltripac,
+                                              content: DropdownButtonFormField(value: seltripac,
                                                                       items: tripac.map((String tripac) {
                                                                           return DropdownMenuItem(
                                                                             value: tripac,
@@ -360,7 +360,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                   showToast('Four Bed Room Non A/C is fully booked',position: ToastPosition.bottom);
                                                               }String selquad=quad.first;showDialog(context: context, builder: (context)=>AlertDialog(
                                               title: Text("Four Bed Room Non A/C"),
-                                              content: DropdownButton(value: selquad,
+                                              content: DropdownButtonFormField(value: selquad,
                                                                       items: quad.map((String quad) {
                                                                           return DropdownMenuItem(
                                                                             value: quad,

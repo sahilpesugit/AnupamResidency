@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anupam/roomalloc.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:anupam/pdfInvoiceAPI.dart';
+import 'package:oktoast/oktoast.dart';
 
 
 class Billing extends StatefulWidget {
@@ -115,6 +116,7 @@ class makeBill extends State<Billing>{
                       child:ElevatedButton(
                         onPressed:()
                           {
+                            showToast('${name} has been added',position: ToastPosition.bottom);
                             _onUpdate(name, rate, quantity);
                           },
                         child: const Text('Add'),)),
