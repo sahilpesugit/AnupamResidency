@@ -216,6 +216,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                           selsingsb= newValue!;
                                                                         });
                                                                       },
+                                                                      
                                                                      ),
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleSBath";roomno=selsingsb;finaltype=singsbrooms;Navigator.pop(context);})] ));},))
                 ]
@@ -242,6 +243,7 @@ class roomAlloc extends State<RoomAlloc>{
                                                                           selsingb= newValue!;
                                                                         });
                                                                       },
+                                                                      
                                                                      ),
                                               actions:[TextButton(child: Text("Ok"),onPressed: (){roomtype="SingleBath";roomno=selsingb;finaltype=singbrooms;Navigator.pop(context);},),] ));},))
                 ]
