@@ -1,4 +1,5 @@
 import 'package:anupam/genBill.dart';
+import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/main.dart';
 import 'package:anupam/pdfInvoiceAPI.dart';
 import 'package:flutter/material.dart';
@@ -54,10 +55,34 @@ class paymentPage extends State<MoP>{
             body: Center(
               child: Column(
                 children: <Widget>[
-                  const SizedBox(height:200), 
-                  Padding(padding: const EdgeInsets.all(8.0),
-                  child: Text("Select the Mode of Payment",textScaleFactor: 2, style: TextStyle(color: Colors.deepOrangeAccent),),),
+                  const SizedBox(height:50.0),
+                  const Center(
+                    child: Text(
+                      "Select the Mode of Payment",
+                       style: TextStyle(
+                        color: Colors.deepOrangeAccent,
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                       ),
+                    ),
+                  ),
                   const SizedBox(height:200),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: Glassmorphism(
+                      blur: 10,
+                      opacity: 0.07,
+                      radius: 20,
+                      child: Container(
+                        height: 180,
+                        width: 200,
+                        alignment: Alignment.topCenter,
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                              
                   DropdownButton(
                     value: modeP,
                     items: dditems,
@@ -76,7 +101,7 @@ class paymentPage extends State<MoP>{
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));},
                               child: const Text('Complete Payment'),))
                 
-              ]))
+                ],),),),)]))
             )
 
     );

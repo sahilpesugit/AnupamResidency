@@ -153,12 +153,13 @@ class makeBill extends State<Billing>{
             body: Center(
               child: Column(
                 children: <Widget>[ 
-                  const SizedBox(height:100),
+                  const SizedBox(height:50.0),
                   Text('Miscellaneous Items',style: TextStyle(
                     color: Colors.deepOrangeAccent,
-                    fontSize: 30.0,
+                    fontSize: 40.0,
                     fontWeight: FontWeight.bold,
                   ),),
+                  const SizedBox(height: 200),
                   Column(children:[
               Container(child: Column(
                 children: <Widget>[ 
