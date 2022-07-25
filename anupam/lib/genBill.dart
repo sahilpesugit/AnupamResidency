@@ -32,6 +32,7 @@ class billPdf extends State<genPdf>{
   final ButtonStyle style =
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
      static List<dynamic> amt=[];
+     var color=Colors.lightBlue;
   static totalTally(){
     final totalroom=(makeBill.billdeets[6]*makeBill.billdeets[5]);
     final amttab=[];
@@ -73,15 +74,23 @@ Widget build(BuildContext context){
   return Scaffold(
     body: Stack(children: [
       PdfPreview(build: (context)=> PdfInvoiceAPI.makePdf() ),
-      SizedBox(height:50,width:120,
+      Container(
+        alignment: Alignment.topCenter,
+        padding: EdgeInsets.all(10),
+        child: SizedBox(height:50,width:120,
                             child:ElevatedButton(
+                              
                               style: style,
                               onPressed:()
                                 {
                                   amt=totalTally();
 
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoP()));},
-                              child: const Text('Complete Checkout'),))
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MoP()));
+                                },
+                              child: const Text('Complete Checkout'),)),
+        
+      ),
+      
     ],)
   );
 }
