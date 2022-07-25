@@ -213,31 +213,38 @@ class PdfInvoiceAPI{
           pw.SizedBox(width: 250),
           pw.Column(children: [
             pw.Row(children: [
-              pw.Text('SUBTOTAL: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.Text('SUBTOTAL: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.left),
               pw.Text('Rs.${amttab[0]}')
             ],
             mainAxisAlignment: pw.MainAxisAlignment.end,
             crossAxisAlignment: pw.CrossAxisAlignment.end),
             pw.Row(children: [
-              pw.Text('TAX RATE: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+              pw.Text('TAX RATE: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.left),
               pw.Text('${amttab[4]} %')
             ],
             mainAxisAlignment: pw.MainAxisAlignment.end,
             crossAxisAlignment: pw.CrossAxisAlignment.end),
             pw.Row(children: [
-              pw.Text('TAX: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-              pw.Text('Rs.${amttab[1]-amttab[0]}')
+              pw.Text('TAX: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.left),
+              pw.Text('Rs.${double. parse((amttab[1]-amttab[0]). toStringAsFixed(2))}')
             ],
             mainAxisAlignment: pw.MainAxisAlignment.end,
             crossAxisAlignment: pw.CrossAxisAlignment.end),
             pw.Row(children: [
-              pw.Text('GRAND TOTAL: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-              pw.Text('Rs.${amttab[1]}')
+              pw.Text('GRAND TOTAL: ',style: pw.TextStyle(fontWeight: pw.FontWeight.bold), textAlign: pw.TextAlign.left),
+              pw.Text('Rs.${double. parse((amttab[1]). toStringAsFixed(2))}')
             ],
             mainAxisAlignment: pw.MainAxisAlignment.end,
             crossAxisAlignment: pw.CrossAxisAlignment.end)
           ])
         ]),
+        pw.Expanded(
+          child: pw.Align(
+            alignment: pw.FractionalOffset(0.5,1.0) ,
+            child: pw.Text('Anupam Residency - anupamresidency@gmail.com - (080)25461330', style: pw.TextStyle(fontStyle: pw.FontStyle.italic,)),
+)
+          
+          ),
 
         
         
