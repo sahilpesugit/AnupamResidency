@@ -40,6 +40,7 @@ dependencies:
   printing: ^5.9.1
   open_document: ^1.0.4
   syncfusion_flutter_pdfviewer: ^20.2.38-beta
+  syncfusion_flutter_datepicker: ^20.2.40
 dev_dependencies:
   flutter_test:
     sdk: flutter

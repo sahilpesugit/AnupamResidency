@@ -19,9 +19,7 @@ class Checkin extends StatefulWidget {
   custReg createState() => custReg();
   
 }
-// final String names="Soil";
-// final int phNos=420;
-// final String locations="bloreeeeeee";
+
 
 class custReg extends State<Checkin>{
   var _text = '';
@@ -70,16 +68,7 @@ class custReg extends State<Checkin>{
   }
  Widget build(BuildContext context) {
     CollectionReference checkins = FirebaseFirestore.instance.collection("CheckIn");
-  //   Future<void> addCheckin() {
-  //     // Call the user's CollectionReference to add a new user
-  //     return checkins
-  //         .add({
-  //           "name": namecont.text, // John Doe
-  //           'location': locationcont.text, // Stokes and Sons
-  //           'phNo': phNocont.text // 42
-  //             })
-  //         .then((value) => print("User Added"))
-  //         .catchError((error) => print("Failed to add user: $error"));
+  
           
   //  }
     final ButtonStyle style =
@@ -101,10 +90,7 @@ class custReg extends State<Checkin>{
                               style: style,
                               onPressed:(phNocont.value.text.length==10)&&(namecont.value.text.isNotEmpty)&&(locationcont.value.text.isNotEmpty)
                               ?()
-                                // {Map<String,dynamic> data={"name":namecont,"phNo":phNocont,"location":locationcont};
-                                // FirebaseFirestore.instance.collection("CheckIn").add(data);
-                                // log('name: $namecont');
-                                // log('data: $names');
+                                
                                {
                                 
                                 roomAlloc.getData(singsbrooms).then((value) => {roomAlloc.singsb=value});
@@ -212,48 +198,7 @@ class custReg extends State<Checkin>{
             ]),)]
               ), 
           );
-            
-       /*child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: Center(
-              child: Column(
-                children: <Widget>[ 
-                   SizedBox(height:250),
-                   SizedBox( width:400,
-                   child: TextField(
-                     controller: namecont,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Name',),
-                      onChanged: (text) => setState(()=> _text),)),
-                  SizedBox(height:20),
-                  SizedBox( width:400,
-                   child: TextField(
-                     controller: phNocont,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Phone Number',
-                      //errorText: _errorText
-                      ),
-                      onChanged: (text) => setState(()=> _text),)),
-                  SizedBox(height:20),
-                  SizedBox( width:400,  
-                   child: TextField(
-                     controller: locationcont,
-                    obscureText: false,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Location',),
-                      onChanged: (text) => setState(()=> _text),)),     
-                  buttons,  
-                      
-                  
-              ]))
-            )
-
-    );*/
+          
   }
 
 

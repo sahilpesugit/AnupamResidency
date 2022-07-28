@@ -49,12 +49,12 @@ class billPdf extends State<genPdf>{
     double preamt=totalroom+totalmisc;
     double postamt=0;
     if(makeBill.billdeets[5]>=1000){
-      postamt=((actaxrate*preamt)/100)+preamt;
       finaltax=actaxrate;
+      postamt=((totalroom*(finaltax/100))+totalroom+totalmisc);
     }
     else{
-      postamt=((nactaxrate*preamt)/100)+preamt;
       finaltax=nactaxrate;
+      postamt=((totalroom*(finaltax/100))+totalroom+totalmisc);
     }
     print(preamt);
     print(postamt);

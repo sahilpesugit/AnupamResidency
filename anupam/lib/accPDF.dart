@@ -12,7 +12,7 @@ import 'dart:io';
 import 'package:anupam/bill.dart';
 // import 'package:flutter/src/widgets/framework.dart' as fw;
 
-class PdfInvoiceAPI{
+class accPdf{
   final int gst=18;
   
   static Future<Uint8List> makePdf() async{

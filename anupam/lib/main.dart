@@ -1,3 +1,4 @@
+import 'package:anupam/accounts.dart';
 import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/makereservation.dart';
 import 'package:flutter/material.dart';
@@ -76,7 +77,7 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 200.0,
+                  height: 100,
                 ),
                 const Center(
                   child: Text(
@@ -88,7 +89,7 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
             ),
-            const Spacer(),
+            SizedBox(height:100),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
@@ -98,7 +99,7 @@ class HomePage extends StatelessWidget {
                 opacity: 0.07,
                 radius: 20,
                 child: Container(
-                  height: 300,
+                  height: 320,
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
@@ -167,6 +168,12 @@ class HomePage extends StatelessWidget {
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
                   child: const Text('Cancel Reservation')),
+                  const SizedBox(height:10),
+                  ElevatedButton(
+                  
+                  onPressed:()
+                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Accounts()));},
+                  child: const Text('Accounts')),
                     ]),),
                 ),),
                 const SizedBox(
