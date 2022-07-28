@@ -19,19 +19,24 @@ class Accounts extends StatefulWidget {
 
 class accGen extends State<Accounts>{
   CollectionReference acc = FirebaseFirestore.instance.collection("Accounts");
-  List<dynamic> accountList=[];
+  Map<String,List<dynamic>> accountList={};
   List<DateTime> range=[];
-  
+
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
       setState(() {
         range=[];
         range.add(args.value.startDate);
-        range.add(args.value.endDate);
+        range.add(args.value.endDate.add(new Duration(hours: 24)));
       });    
       }
 
   void getAccounts() {
-    acc.where("date", isGreaterThanOrEqualTo: range[0], isLessThanOrEqualTo: range[1]).get().then((value) => accountList.add(value.toString()));
+    acc.where("date",
+     isGreaterThanOrEqualTo: range[0], isLessThanOrEqualTo: range[1])
+     .get().then((value) => 
+        value.docs.forEach((element) {
+          accountList[element.id]=[element.get("amount"),element.get("date"),element.get("mode"),element.get("phNo"),element.get("preTamount")];
+        }));
     print(accountList);
   }
   @override
@@ -90,6 +95,7 @@ class accGen extends State<Accounts>{
                       ),
                       ElevatedButton(onPressed:() {
                         getAccounts();
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage())); 
                       }, child: Text('Get Accounts'))
 
                  
