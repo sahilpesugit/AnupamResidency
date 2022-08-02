@@ -1,3 +1,4 @@
+import 'package:anupam/CSVgen.dart';
 import 'package:anupam/glassmorphism.dart';
 import 'package:anupam/main.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'dart:developer';
 import 'package:oktoast/oktoast.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
+import 'package:anupam/CSVgen.dart';
 
 class Accounts extends StatefulWidget {
   const Accounts({ Key? key }) : super(key: key);
@@ -19,26 +21,18 @@ class Accounts extends StatefulWidget {
 
 class accGen extends State<Accounts>{
   CollectionReference acc = FirebaseFirestore.instance.collection("Accounts");
-  Map<String,List<dynamic>> accountList={};
+  
   List<DateTime> range=[];
 
-  void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
+  void onSelectionChanged(value) {
       setState(() {
-        range=[];
-        range.add(args.value.startDate);
-        range.add(args.value.endDate.add(new Duration(hours: 24)));
-      });    
+      range=[];
+      range.add(value.startDate);
+      range.add(value.endDate.add(const Duration(hours: 24)));
+      });   
       }
 
-  void getAccounts() {
-    acc.where("date",
-     isGreaterThanOrEqualTo: range[0], isLessThanOrEqualTo: range[1])
-     .get().then((value) => 
-        value.docs.forEach((element) {
-          accountList[element.id]=[element.get("amount"),element.get("date"),element.get("mode"),element.get("phNo"),element.get("preTamount")];
-        }));
-    print(accountList);
-  }
+  
   @override
  Widget build(BuildContext context) {
     
@@ -89,14 +83,41 @@ class accGen extends State<Accounts>{
                       // buttons,
                       SfDateRangePicker(
                         view: DateRangePickerView.month,
-                        monthViewSettings: DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
-                        onSelectionChanged: _onSelectionChanged,
                         selectionMode: DateRangePickerSelectionMode.range,
+                        monthViewSettings: const DateRangePickerMonthViewSettings(firstDayOfWeek: 1),
+                        showActionButtons: true,
+                        cancelText: 'CANCEL',
+                        confirmText: 'OK',
+                        onCancel: () {
+                              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text(
+                                  'Selection Cancelled',
+                                ),
+                                duration: Duration(milliseconds: 500),
+                              ));
+                            },
+                        onSubmit: (value) {
+                          onSelectionChanged(value);
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                              'Selection Confirmed',
+                            ),
+                            duration: Duration(milliseconds: 500),
+                            ));
+                          }
                       ),
-                      ElevatedButton(onPressed:() {
-                        getAccounts();
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(onPressed:() {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage())); 
-                      }, child: Text('Get Accounts'))
+                      }, child: Text('Back')),
+                      SizedBox(width: 22),
+                      ElevatedButton(onPressed:() {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CSV(range:range))); 
+                      }, child: Text('Next'))
+                      ],)
+                      
 
                  
                       

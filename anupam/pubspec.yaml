@@ -41,6 +41,8 @@ dependencies:
   open_document: ^1.0.4
   syncfusion_flutter_pdfviewer: ^20.2.38-beta
   syncfusion_flutter_datepicker: ^20.2.40
+  csv: ^5.0.1
+  file_picker: ^5.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
