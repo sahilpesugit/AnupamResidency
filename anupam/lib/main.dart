@@ -7,6 +7,7 @@ import 'package:anupam/checkin.dart';
 import 'package:anupam/checkout.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:anupam/dashboard.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:pdf/pdf.dart' as w;
 
@@ -152,28 +153,38 @@ class HomePage extends StatelessWidget {
                   //       opacity: 1.0, 
                   //       radius: 100.0, 
                   //       child: 
-                  ElevatedButton(
+                  // ElevatedButton(
                   
-                  onPressed:()
-                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MakeReserve(onSubmit: (value) => value,)));},
-                  child: const Text('Make Reservation')),
-                  const SizedBox(height: 10),
-                  // Glassmorphism(
-                  //       blur: 10, 
-                  //       opacity: 1.0, 
-                  //       radius: 100.0, 
-                  //       child: 
-                  ElevatedButton(
+                  // onPressed:()
+                  //   {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MakeReserve(onSubmit: (value) => value,)));},
+                  // child: const Text('Make Reservation')),
+                  // const SizedBox(height: 10),
+                  // // Glassmorphism(
+                  // //       blur: 10, 
+                  // //       opacity: 1.0, 
+                  // //       radius: 100.0, 
+                  // //       child: 
+                  // ElevatedButton(
                   
-                  onPressed:()
-                    {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
-                  child: const Text('Cancel Reservation')),
-                  const SizedBox(height:10),
+                  // onPressed:()
+                  //   {
+                  //     Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Checkout()));},
+                  // child: const Text('Cancel Reservation')),
+                  // const SizedBox(height:10),
                   ElevatedButton(
                   
                   onPressed:()
                     {Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Accounts()));},
                   child: const Text('Accounts')),
+                  const SizedBox(height:10),
+                  ElevatedButton(
+                  
+                  onPressed:()
+                    {
+                      
+                      
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Dashboard()));},
+                  child: const Text('Dashboard')),
                     ]),),
                 ),),
                 const SizedBox(

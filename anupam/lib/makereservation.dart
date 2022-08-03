@@ -1,7 +1,7 @@
 // import 'dart:ffi';
 import 'package:anupam/checkout.dart';
 import 'package:anupam/main.dart';
-import 'package:anupam/reserve.dart';
+//import 'package:anupam/reserve.dart';
 import 'package:anupam/roomalloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +30,8 @@ class custRes extends State<MakeReserve>{
   TextEditingController namecont=new TextEditingController();
   TextEditingController phNocont=new TextEditingController();
   TextEditingController locationcont=new TextEditingController();
+  TextEditingController checkIncont=new TextEditingController();
+  TextEditingController roomTypecont=new TextEditingController();
   CollectionReference singsbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleSBath").collection("rooms");
   CollectionReference singbrooms = FirebaseFirestore.instance.collection('Rooms').doc("SingleBath").collection("rooms");
   CollectionReference dubacrooms = FirebaseFirestore.instance.collection('Rooms').doc("DoubleAC").collection("rooms");
@@ -62,6 +64,34 @@ class custRes extends State<MakeReserve>{
     return null;
 
   }
+  static Future<List<String>> getData(rooms) async {
+      // Get docs from collection reference
+      QuerySnapshot querySnapshot = await rooms.get();
+
+      // Get data from docs and convert map to List
+      // final allData = querySnapshot.docs.map((doc) => doc.data().toString()).toList();
+      List<String> list=[];
+      querySnapshot.docs.forEach((element) {
+                if(element.get("avail")=="y"){
+                  list.add(element.get("num").toString());
+                };});
+      return(list);
+     
+  }
+ 
+  
+
+  Future<void> updateReserve(roomtype,date)async {
+    CollectionReference ref = FirebaseFirestore.instance.collection('Rooms').doc('${roomtype}').collection("rooms");
+    DateTime timetoUpdate=DateTime.parse(date);
+    
+    if(DateTime.now().isAfter(timetoUpdate))
+    {
+      dynamic available = getData(ref);
+      var res = await ref.doc('${available[0]}').update({'avail':'r'});
+    }
+  }
+
   bool _submit() {
     if(_errorText == null) {
       //widget.onSubmit(phNocont.value.text);
@@ -108,16 +138,9 @@ class custRes extends State<MakeReserve>{
                                 // log('data: $names');
                                {
                                 
-                                roomAlloc.getData(singsbrooms).then((value) => {roomAlloc.singsb=value});
-                                roomAlloc.getData(singbrooms).then((value) => {roomAlloc.singb=value});
-                                roomAlloc.getData(dubnrooms).then((value) => {roomAlloc.dubn=value});
-                                roomAlloc.getData(dubacrooms).then((value) => {roomAlloc.dubac=value});
-                                roomAlloc.getData(tripnrooms).then((value) => {roomAlloc.tripn=value});
-                                roomAlloc.getData(tripacrooms).then((value) => {roomAlloc.tripac=value});
-                                roomAlloc.getData(quadrooms).then((value) => {roomAlloc.quad=value});
-                                print(roomAlloc.dubac.length);
+                                updateReserve(roomTypecont, checkIncont);
                                 // singsbn=roomAlloc.singsb.length;
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Reserve(namecont:namecont,locationcont:locationcont,phNocont:phNocont)));} 
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>HomePage()));} 
                                 : null
                                 ,
                               child: const Text('Next'),))
@@ -199,7 +222,7 @@ class custRes extends State<MakeReserve>{
                       SizedBox(height: 20),
                       SizedBox(width:400,
                       child: TextField(
-                        controller: locationcont,
+                        controller: checkIncont,
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
@@ -227,6 +250,12 @@ class custRes extends State<MakeReserve>{
                       //errorText: _errorText
                       ),
                       onChanged: (text) => setState(()=> _text),)),
+                      // SizedBox(
+                      //   width: 400,
+                      //   child: ElevatedButton(
+                      //     controller: 
+                      //   ),
+                      // )
                       buttons,
 
                         ]),)),)
